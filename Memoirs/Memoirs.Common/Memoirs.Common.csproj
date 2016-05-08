@@ -46,10 +46,8 @@
     <Compile Include="Entities\Enums\EmptyEnum.cs" />
     <Compile Include="Entities\SimpleRecord.cs" />
     <Compile Include="IGenericRepository.cs" />
-    <Compile Include="Video\ILoginVideoProvider.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Video\LoginVideoProvider.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

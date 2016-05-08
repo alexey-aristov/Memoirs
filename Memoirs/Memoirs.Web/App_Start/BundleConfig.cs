@@ -11,7 +11,8 @@ namespace Memoirs.Web
             bundles.Add(new ScriptBundle("~/bundles/scripts/common").Include(
                 "~/node_modules/jquery/dist/jquery.js",
                 "~/node_modules/bootstrap/dist/bootstrap.js",
-                "~/node_modules/react/dist/react.js"));
+                "~/node_modules/react/dist/react.js",
+                "~/node_modules/react-dom/dist/react-dom.js"));
             bundles.Add(new StyleBundle("~/bundles/style/main").Include(
                 "~/node_modules/bootstrap/dist/css/bootstrap.css",
                 "~/Content/site.css"));
