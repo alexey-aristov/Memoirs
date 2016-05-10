@@ -11,7 +11,7 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using Memoirs.Common;
-using Memoirs.Common.Video;
+using Memoirs.Common.Entities;
 using Memoirs.Web.Models;
 
 namespace Memoirs.Web.Controllers
@@ -19,12 +19,10 @@ namespace Memoirs.Web.Controllers
     public class RestController : ApiController
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILoginVideoProvider _loginVideoProvider;
         
-        public RestController(IUnitOfWork unitOfWork,ILoginVideoProvider loginVideoProvider)
+        public RestController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _loginVideoProvider = loginVideoProvider;
         }
 
         [HttpGet]
@@ -32,6 +30,7 @@ namespace Memoirs.Web.Controllers
         {
             return _unitOfWork.RecordsRepository.Get().First().Text;
         }
+
         [HttpGet]
         public IList<RecordModel> GetRecords()
         {
@@ -45,7 +44,26 @@ namespace Memoirs.Web.Controllers
                Label = a.Label
            }).ToList();
         }
-        
+
+        public AddRecordResultModel PostRecord(RecordModel model)
+        {
+            _unitOfWork.RecordsRepository.Add(new SimpleRecord()
+            {
+                Label = model.Label,
+                Text = model.Text,
+                DateCreated = DateTime.Now,
+                Description = model.Description,
+                IsDeleted = false
+            });
+            _unitOfWork.Save();
+
+            return new AddRecordResultModel()
+            {
+                Record = model
+            };
+
+        }
+
         public HttpResponseMessage GetLoginImage()
         {
             //Image img = Image.FromFile(ConfigurationManager.AppSettings.Get("login_image_file"));

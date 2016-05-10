@@ -30,7 +30,7 @@ namespace Memoirs.EntityFramework {
 			return _dbSet.Find ( id );
 		}
 
-		public virtual void Insert ( TEntity entity ) {
+		public virtual void Add ( TEntity entity ) {
 			_dbSet.Add ( entity );
 		}
 

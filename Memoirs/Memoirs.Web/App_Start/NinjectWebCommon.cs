@@ -1,5 +1,4 @@
 using Memoirs.Common;
-using Memoirs.Common.Video;
 using Memoirs.EntityFramework;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Memoirs.Web.App_Start.NinjectWebCommon), "Start")]
@@ -66,7 +65,6 @@ namespace Memoirs.Web.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
-            kernel.Bind<ILoginVideoProvider>().To<LoginVideoProvider>().InRequestScope();
         }        
     }
 }

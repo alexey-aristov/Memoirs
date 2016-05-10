@@ -7,7 +7,7 @@ namespace Memoirs.Common {
 		IQueryable<TEntity> Get ( string includeProperties = "" );
 		IQueryable<TEntity> GetWithDeleted ( string includeProperties = "" );
 		TEntity GetById ( int id );
-		void Insert ( TEntity entity );
+		void Add ( TEntity entity );
 		void Delete ( int id );
 		void Delete ( TEntity entity );
 		void Update ( TEntity entity );

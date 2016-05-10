@@ -252,6 +252,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="App_Start\AccountViewModels.cs" />
+    <Compile Include="Models\AddRecordResultModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RecordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -288,6 +289,7 @@
     <Content Include="node_modules\react\dist\react.min.js" />
     <Content Include="node_modules\react\react.js" />
     <Content Include="package.json" />
+    <None Include="Scripts\AddNewRecord.jsx" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="node_modules\bootstrap\dist\css\bootstrap-theme.css.map" />
     <Content Include="node_modules\bootstrap\dist\css\bootstrap-theme.min.css.map" />
@@ -315,8 +317,10 @@
     <Content Include="node_modules\react-dom\PATENTS" />
     <Content Include="node_modules\react-dom\README.md" />
     <None Include="Scripts\PrevPostsList.jsx" />
+    <Content Include="Scripts\RecordsManager.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Singleton.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
