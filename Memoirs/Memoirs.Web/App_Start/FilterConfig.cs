@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using Memoirs.Web.Filters;
 
 namespace Memoirs.Web
 {

@@ -47,6 +47,7 @@
     <Compile Include="Entities\SimpleRecord.cs" />
     <Compile Include="IGenericRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="MemoirsExceptionBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

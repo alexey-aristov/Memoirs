@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using Memoirs.Web.Filters;
 
 namespace Memoirs.Web
 {
@@ -22,6 +23,9 @@ namespace Memoirs.Web
             );
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
+
+
+            config.Filters.Add(new ApiExceptionFilter());
         }
     }
 }
