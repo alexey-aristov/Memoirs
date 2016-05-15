@@ -6,29 +6,27 @@
                 'Label_placeholder': 'Label',
                 'Text_placeholder': 'Type your best day event here!'
             },
-        GetResource: function (res) {
-            var r = this.data[res];
-            if (r == undefined) {
-                console.error('Resource "' + res + '" not found!');
-                return res;
+            GetResource: function (res) {
+                var r = this.data[res];
+                if (r == undefined) {
+                    console.error('Resource "' + res + '" not found!');
+                    return res;
+                }
+                return r;
             }
-            return r;
         }
-    }
 };
 
 var NewRecord = React.createClass
 ({
     recordsManager: new RecordsManger(),
-    getInitialState: function ()
-    {
+    getInitialState: function () {
         return {
-                Label:'',
-                Text:''
-            };
-        },
-    handleSubmit: function (e)
-    {
+            Label: '',
+            Text: ''
+        };
+    },
+    handleSubmit: function (e) {
         e.preventDefault();
         this.recordsManager.AddRecord(this.state, function () {
             this.setState(this.getInitialState());
@@ -49,30 +47,31 @@ var NewRecord = React.createClass
         //    }.bind(this)
         //});
     },
-    handleTextChange: function (e)
-    {
+    handleTextChange: function (e) {
         this.setState({ Text: e.target.value });
     },
-    handleLabelChange: function (e)
-    {
+    handleLabelChange: function (e) {
         e.preventDefault();
         this.setState({ Label: e.target.value });
     },
-    render: function ()
-    {
+    render: function () {
         return (
-            <form className="add_new_record" onSubmit={this.handleSubmit}>
-            <input type="text" placeholder={ResorcesDispatcher.NewRecord.GetResource('Label_placeholder')}
-                    value={this.state.Label}
-                    className="form-control"
-                    onChange={this.handleLabelChange} />
-            <textarea placeholder={ResorcesDispatcher.NewRecord.GetResource('Text_placeholder')}
-                    value={this.state.Text}
-                    className="form-control"
-                    rows="10"
-                    cols="10"
-                    onChange={this.handleTextChange} />
-            <input type="submit" className="btn btn-sm btn-success" value="Post" />
+            <form className="add_new_record row" onSubmit={this.handleSubmit}>
+                <div className="col-md-2"></div>
+                <div className="col-md-8">
+                    <input type="text" placeholder={ResorcesDispatcher.NewRecord.GetResource('Label_placeholder')}
+                           value={this.state.Label}
+                           className="form-control"
+                           onChange={this.handleLabelChange} />
+                    <textarea placeholder={ResorcesDispatcher.NewRecord.GetResource('Text_placeholder')}
+                              value={this.state.Text}
+                              className="form-control"
+                              rows="10"
+                              cols="10"
+                              onChange={this.handleTextChange} />
+                    <input type="submit" className="btn btn-sm btn-success" value="Post" />
+                </div>
+                <div className="col-md-2"></div>
             </form>
         );
     }
