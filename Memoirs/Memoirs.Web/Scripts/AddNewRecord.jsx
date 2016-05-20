@@ -1,4 +1,6 @@
-﻿var ResorcesDispatcher = {
+﻿require('Singleton');
+
+var ResorcesDispatcher = {
     NewRecord:
         {
             data:

@@ -1,4 +1,6 @@
-﻿var RecordsManger = Singleton(function() {
+﻿require('Singleton');
+
+var RecordsManger = Singleton(function () {
     this.GetRecords = function(successCallback, errorCallback) {
         $.ajax({
             url: '/api/rest/GetRecords',
@@ -31,5 +33,9 @@
                 errorCallback();
             }
         });
+    };
+
+    this.SubscribeNewRecordsEvent = function() {
+        
     };
 });

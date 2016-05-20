@@ -290,8 +290,15 @@
     <Content Include="node_modules\react\dist\react.js" />
     <Content Include="node_modules\react\dist\react.min.js" />
     <Content Include="node_modules\react\react.js" />
+    <Content Include="node_modules\requirejs\bin\r.js" />
+    <Content Include="node_modules\requirejs\require.js" />
     <Content Include="package.json" />
+    <Content Include="node_modules\requirejs\package.json" />
+    <Content Include="node_modules\requirejs\README.md" />
     <None Include="Scripts\AddNewRecord.jsx" />
+    <Content Include="Scripts\App.js" />
+    <Content Include="Scripts\app.min.js" />
+    <Content Include="Scripts\build.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="node_modules\bootstrap\dist\css\bootstrap-theme.css.map" />
     <Content Include="node_modules\bootstrap\dist\css\bootstrap-theme.min.css.map" />
@@ -395,6 +402,9 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <Target Name="BeforeBuild">
+    <Exec Command="node node_modules\requirejs\bin\r.js -o Scripts\build.js" />
   </Target>
   <ProjectExtensions>
     <VisualStudio>

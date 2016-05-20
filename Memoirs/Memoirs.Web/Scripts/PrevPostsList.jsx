@@ -1,4 +1,4 @@
-﻿
+﻿require('React');
 
 var PostsList = React.createClass(
 {
@@ -18,6 +18,8 @@ var PostsList = React.createClass(
         //        console.error(this.props.url, status, err.toString());
         //    }.bind(this)
         //});
+    },
+    componentWillMount: function() {
     },
     componentDidMount: function () {
         this.loadFromServer();
