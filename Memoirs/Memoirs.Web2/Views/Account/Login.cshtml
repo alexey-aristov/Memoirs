@@ -1,0 +1,71 @@
+﻿@model Memoirs.Web2.Models.Account.LoginModel
+@{
+    Layout = null;
+    ViewBag.Title = "Log in";
+}
+@*@Styles.Render("~/bundles/style/main")*@
+<style>
+    body {
+        margin: 0px;
+    }
+     #loginForm {
+         position: absolute;
+         left: 50%;
+         top: 50%;
+         margin-left: -180px;
+         margin-top: -100px;
+         width: 200px;
+         min-width: 200px;
+         color: black;
+         z-index: 10;
+     }
+
+    #back {
+        position: absolute;
+        top: 10%;
+        width: 100%;
+        z-index: -100;
+    }
+</style>
+    @*<video autoplay="autoplay" id="video-background" preload="auto" loop>
+        <source src="/home/video" type="video/mp4">
+    </video>*@
+    <img src="/api/pictures/login" id ="back"/>
+    <div id="loginForm">
+        @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+        {
+            @Html.AntiForgeryToken()
+            <h4>Memoirs.</h4>
+            <hr/>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Login, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Login, new {@class = "form-control"})
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Log in" class="btn btn-default"/>
+                    <a href="@Url.Action("Register")" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+            @* Enable this once you have account confirmation enabled for password reset functionality
+                <p>
+                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                </p>*@
+        }
+    </div>
+    @*<div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel {ReturnUrl = ViewBag.ReturnUrl})
+        </section>
+    </div>*@
+
+@*@Scripts.Render("~/bundles/scripts/common")*@

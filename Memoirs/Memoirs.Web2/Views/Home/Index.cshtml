@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div id="app">
+
+    <div class="jumbotron">
+        <div className="col-md-2"></div>
+        <div className="col-md-8">
+            <h1>Records</h1>
+            <input id="new_record_label" type="text" class="form-control" placeholder="Best event!">
+            <textarea id="new_record_text" class="form-control" placeholder="Event description"></textarea>
+        </div>
+
+        <div className="col-md-2"></div>
+    </div>
+    <div className="row" id="main">
+        <div className="col-md-3"></div>
+        <div className="list-group col-md-6" id="prev_records"></div>
+        <div className="col-md-3"></div>
+    </div>
+
+    @*<footer style="display: none;">
+            <a id="clear-completed">Clear completed</a>
+            <div id="todo-count"></div>
+        </footer>*@
+
+</div>
+
+@section Scripts{
+    @*-----------------temp--------------------------*@
+    <script type="text/javascript" src="http://localtodos.com/backbone.localStorage.js"></script>
+    <script type="text/template" id="item-template">
+        
+            <h4 className="list-group-item-heading">
+                <%- Label %>
+            </h4>
+            <p className="list-group-item-text">
+                <%- Text %>
+            </p>
+    
+    </script>
+}
