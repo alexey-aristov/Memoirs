@@ -4,7 +4,8 @@
             return {
                 Id: 0,
                 Label: '',
-                Text: ''
+                Text: '',
+                Editable: true
             };
         }
     });
@@ -18,15 +19,29 @@
     });
 
     var RecordsView = Backbone.View.extend({
+        isEditingOn: false,
         tagName: 'div',
-        className: 'list-group-item',
+        className: 'list-group-item row',
         template: _.template($('#item-template').html()),
         events: {
-            'dblclick .view': 'edit',
-            'keypress .edit': 'updateOnEnter'
+            'click .records-prev-edit-btn': 'edit',
+            'click .records-prev-edit-confirm': 'confirmEdit',
+            'click .records-prev-edit-undo': 'undoEdit',
+            'keypress .records-prev-edit-text': 'confirmEditOnKey',
+            'keypress .records-prev-edit-label': 'confirmEditOnKey'
         },
-        edit: function () {
-            alert(this.$el.text);
+        edit: function (param) {
+            if (this.isEditingOn) {
+                return;
+            }
+            this.isEditingOn = true;
+            this.$('.records-prev-edit-text').val(this.model.attributes.Text);
+            this.$('.records-prev-edit-label').val(this.model.attributes.Label);
+            this.$('.records-prev-edit-text,.records-prev-edit-label,.records-prev-edit-confirm').show();
+            this.$('.records-prev-text,.records-prev-label').hide();
+            this.$('.records-prev-edit-confirm').show();
+            this.$('.records-prev-edit-undo').show();
+            this.$('.records-prev-edit-btn').hide();
         },
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
@@ -35,11 +50,48 @@
             this.$el.html(this.template(this.model.toJSON()));
             this.input = this.$('.edit');
             return this;
-        }//,
-        //updateOnEnter: function() {
-        //    if(e.keyCode == 13)
-        //        this.close
-        //}
+        },
+        confirmEditOnKey(e) {
+            if (e.keyCode == 13)
+                this.confirmEdit();
+        },
+        confirmEdit: function () {
+            this.model.set({
+                "Label": this.$('.records-prev-edit-label').val(),
+                "Text": this.$('.records-prev-edit-text').val()
+            });
+            Backbone.sync('update', this.model, {
+                wait: true,
+                error: function (responce) {
+                    this.model.fetch({
+                        url: this.model.url() + '/' + this.model.attributes.Id
+                    });
+                    this.render();
+                    //temp
+                    alert("update failed:" + responce.responseText);
+                }.bind(this)
+            });
+            this.$('.records-prev-text,.records-prev-label').show();
+            this.$('.records-prev-edit-label').hide();
+            this.$('.records-prev-edit-text').hide();
+            this.$('.records-prev-edit-confirm').hide();
+            this.$('.records-prev-edit-undo').hide();
+            this.$('.records-prev-edit-btn').show();
+            this.isEditingOn = false;
+        },
+        undoEdit: function () {
+            this.model.fetch({
+                url: this.model.url() + '/' + this.model.attributes.Id
+            });
+            this.render();
+            this.$('.records-prev-text,.records-prev-label').show();
+            this.$('.records-prev-edit-label').hide();
+            this.$('.records-prev-edit-text').hide();
+            this.$('.records-prev-edit-confirm').hide();
+            this.$('.records-prev-edit-undo').hide();
+            this.$('.records-prev-edit-btn').show();
+            this.isEditingOn = false;
+        }
     });
 
     var Records = new RecordsList;

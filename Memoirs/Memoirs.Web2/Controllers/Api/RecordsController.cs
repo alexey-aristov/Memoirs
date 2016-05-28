@@ -10,6 +10,7 @@ using Memoirs.Common.Entities.Abstract;
 using Memoirs.Identity;
 using Memoirs.Web2.Models;
 using Microsoft.AspNet.Identity;
+using WebGrease.Css.Extensions;
 
 namespace Memoirs.Web2.Controllers.Api
 {
@@ -28,7 +29,7 @@ namespace Memoirs.Web2.Controllers.Api
         public IEnumerable<RecordModel> Get()
         {
             var user = User.Identity.Name;
-            return _unitOfWork.RecordsRepository.Get().Select(a =>
+            var records = _unitOfWork.RecordsRepository.Get().Select(a =>
                 new RecordModel()
                 {
                     Text = a.Text,
@@ -38,12 +39,21 @@ namespace Memoirs.Web2.Controllers.Api
                     IsDeleted = a.IsDeleted,
                     Label = a.Label
                 }).ToList();
+            records.ForEach(a => a.Editable = IsEditable(a.DateCreated));
+            return records;
+        }
+
+        private bool IsEditable(DateTime recordDateCreated)
+        {
+            return recordDateCreated == default(DateTime) || DateTime.Now - recordDateCreated < TimeSpan.FromDays(2);
         }
 
         [HttpGet]
         public RecordModel Get(int id)
         {
-            return new RecordModel(_unitOfWork.RecordsRepository.GetById(id));
+            var model = new RecordModel(_unitOfWork.RecordsRepository.GetById(id));
+            model.Editable = IsEditable(model.DateCreated);
+            return model;
         }
         [HttpGet]
         public IEnumerable<RecordModel> Get(string monthyear)
@@ -59,8 +69,8 @@ namespace Memoirs.Web2.Controllers.Api
                     Id = a.Id,
                     IsDeleted = a.IsDeleted,
                     Label = a.Label
-                })
-                .ToList();
+                }).ToList();
+            records.ForEach(a => a.Editable = IsEditable(a.DateCreated));
             return records;
         }
 
@@ -69,12 +79,12 @@ namespace Memoirs.Web2.Controllers.Api
         {
             if (value.Id != 0)
             {
-                throw new ArgumentException("Atempt to create Record with Id");
+                throw new ArgumentException("Atempt to create Record with Id != 0. For update use put method");
             }
             _unitOfWork.RecordsRepository.Add(new SimpleRecord()
             {
                 Text = value.Text,
-                DateCreated = value.DateCreated,
+                DateCreated = DateTime.Now,
                 Description = value.Description,
                 Id = value.Id,
                 IsDeleted = value.IsDeleted,
@@ -83,17 +93,18 @@ namespace Memoirs.Web2.Controllers.Api
             _unitOfWork.Save();
         }
 
-        // PUT: api/Records/5
-        public void Put(int id, [FromBody]RecordModel value)
+        [HttpPut]
+        public void Put([FromBody]RecordModel value)
         {
-            var record = _unitOfWork.RecordsRepository.GetById(id);
+            if (value.Id == 0)
+                throw new ArgumentException("put for new record");
+            var record = _unitOfWork.RecordsRepository.GetById(value.Id);
 
-            if (DateTime.Now - record.DateCreated < TimeSpan.FromDays(2))
+            if (!IsEditable(record.DateCreated))
             {
                 return;
             }
             record.Text = value.Text;
-            record.DateCreated = value.DateCreated;
             record.Description = value.Description;
             record.IsDeleted = value.IsDeleted;
             record.Label = value.Label;

@@ -22,11 +22,12 @@ namespace Memoirs.Web2.Models
             Label = recordBase.Label;
         }
 
-        public  string Label { get; set; }
-        public  string Text { get; set; }
-        public  string Description { get; set; }
-        public  int Id { get; set; }
-        public  bool IsDeleted { get; set; }
-        public  DateTime DateCreated { get; set; }
+        public string Label { get; set; }
+        public string Text { get; set; }
+        public string Description { get; set; }
+        public int Id { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime DateCreated { get; set; }
+        public bool Editable { get; set; }
     }
 }

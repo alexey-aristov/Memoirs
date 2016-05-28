@@ -22,3 +22,26 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.records-prev-edit-btn:hover {
+    cursor: pointer;
+    color: red;
+}
+
+.records-prev-edit-label,
+.records-prev-edit-text,
+.records-prev-edit-confirm {
+    display: none;
+}
+
+.records-prev-edit-confirm:hover {
+    cursor: pointer;
+    color: green;
+}
+.records-prev-edit-undo:hover {
+    cursor: pointer;
+    color: blue;
+}
+.records-prev-edit-undo {
+        display: none;
+}
