@@ -56,6 +56,7 @@
                 this.confirmEdit();
         },
         confirmEdit: function () {
+            this.isEditingOn = false;
             this.model.set({
                 "Label": this.$('.records-prev-edit-label').val(),
                 "Text": this.$('.records-prev-edit-text').val()
@@ -77,9 +78,9 @@
             this.$('.records-prev-edit-confirm').hide();
             this.$('.records-prev-edit-undo').hide();
             this.$('.records-prev-edit-btn').show();
-            this.isEditingOn = false;
         },
         undoEdit: function () {
+            this.isEditingOn = false;
             this.model.fetch({
                 url: this.model.url() + '/' + this.model.attributes.Id
             });
@@ -90,7 +91,6 @@
             this.$('.records-prev-edit-confirm').hide();
             this.$('.records-prev-edit-undo').hide();
             this.$('.records-prev-edit-btn').show();
-            this.isEditingOn = false;
         }
     });
 
@@ -125,13 +125,20 @@
         createOnEnter: function (e) {
             if (e.keyCode != 13) return;
             if (!this.newRecordLabel.val()) return;
-
-            Records.create(
-                { Label: this.newRecordLabel.val(), Text: this.newRecordText.val() },
+            var newRecord = {
+                Label: this.newRecordLabel.val(),
+                Text: this.newRecordText.val()
+            };
+            var record;
+            record = Records.create(
+                newRecord,
                 {
                     wait: true, error: function (model, responce) {
                         //temp solution
                         alert("error!: " + responce.responseText);
+                    },
+                    success: function(a1,a2) {
+                        record.attributes.Id = a2;
                     }
                 }
             );

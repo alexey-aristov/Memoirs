@@ -75,13 +75,13 @@ namespace Memoirs.Web2.Controllers.Api
         }
 
         // POST: api/Records
-        public void Post([FromBody]RecordModel value)
+        public int Post([FromBody]RecordModel value)
         {
             if (value.Id != 0)
             {
                 throw new ArgumentException("Atempt to create Record with Id != 0. For update use put method");
             }
-            _unitOfWork.RecordsRepository.Add(new SimpleRecord()
+            var record = new SimpleRecord()
             {
                 Text = value.Text,
                 DateCreated = DateTime.Now,
@@ -89,8 +89,10 @@ namespace Memoirs.Web2.Controllers.Api
                 Id = value.Id,
                 IsDeleted = value.IsDeleted,
                 Label = value.Label
-            });
+            };
+            _unitOfWork.RecordsRepository.Add(record);
             _unitOfWork.Save();
+            return record.Id;
         }
 
         [HttpPut]
