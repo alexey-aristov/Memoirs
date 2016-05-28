@@ -19,10 +19,12 @@ namespace Memoirs.Web2.Controllers.Api
     {
         private IUnitOfWork _unitOfWork;
         private UserManager<ApplicationUser> _userManager;
+        private string _dateTimeFormat;
         public RecordsController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _dateTimeFormat = "dd-MM-yyyy";
         }
 
         // GET: api/Records
@@ -39,7 +41,11 @@ namespace Memoirs.Web2.Controllers.Api
                     IsDeleted = a.IsDeleted,
                     Label = a.Label
                 }).ToList();
-            records.ForEach(a => a.Editable = IsEditable(a.DateCreated));
+            records.ForEach(a =>
+            {
+                a.DateCreatedString = a.DateCreated.ToString(_dateTimeFormat);
+                a.Editable = IsEditable(a.DateCreated);
+            });
             return records;
         }
 
@@ -52,6 +58,8 @@ namespace Memoirs.Web2.Controllers.Api
         public RecordModel Get(int id)
         {
             var model = new RecordModel(_unitOfWork.RecordsRepository.GetById(id));
+
+            model.DateCreatedString = model.DateCreated.ToString(_dateTimeFormat);
             model.Editable = IsEditable(model.DateCreated);
             return model;
         }
@@ -70,7 +78,11 @@ namespace Memoirs.Web2.Controllers.Api
                     IsDeleted = a.IsDeleted,
                     Label = a.Label
                 }).ToList();
-            records.ForEach(a => a.Editable = IsEditable(a.DateCreated));
+            records.ForEach(a =>
+            {
+                a.DateCreatedString = a.DateCreated.ToString(_dateTimeFormat);
+                a.Editable = IsEditable(a.DateCreated);
+            });
             return records;
         }
 
@@ -81,6 +93,12 @@ namespace Memoirs.Web2.Controllers.Api
             {
                 throw new ArgumentException("Atempt to create Record with Id != 0. For update use put method");
             }
+            var todayRecord = _unitOfWork.RecordsRepository.Get().FirstOrDefault(a => a.DateCreated.Date == DateTime.Now.Date);
+            if (todayRecord != null)
+            {
+                throw new ArgumentException("Cannot create second record for a day");
+            }
+
             var record = new SimpleRecord()
             {
                 Text = value.Text,

@@ -28,6 +28,7 @@ namespace Memoirs.Web2.Models
         public int Id { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime DateCreated { get; set; }
+        public string DateCreatedString { get; set; }
         public bool Editable { get; set; }
     }
 }
