@@ -93,7 +93,7 @@ namespace Memoirs.Web2.Controllers.Api
             {
                 throw new ArgumentException("Atempt to create Record with Id != 0. For update use put method");
             }
-            var todayRecord = _unitOfWork.RecordsRepository.Get().FirstOrDefault(a => a.DateCreated.Date == DateTime.Now.Date);
+            var todayRecord = _unitOfWork.RecordsRepository.Get().FirstOrDefault(a => a.DateCreated.Month == DateTime.Now.Month && a.DateCreated.Year == DateTime.Now.Year);
             if (todayRecord != null)
             {
                 throw new ArgumentException("Cannot create second record for a day");
