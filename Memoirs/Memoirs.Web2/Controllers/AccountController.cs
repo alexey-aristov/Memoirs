@@ -27,6 +27,9 @@ namespace Memoirs.Web2.Controllers
         // GET: Account
         public ActionResult Login()
         {
+            var userId = User.Identity.GetUserId();
+            if(userId!=null)
+                return RedirectToAction("Index", "Home");
             return View();
         }
 
