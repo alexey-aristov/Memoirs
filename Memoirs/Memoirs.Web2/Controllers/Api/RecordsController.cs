@@ -40,10 +40,28 @@ namespace Memoirs.Web2.Controllers.Api
                 }).ToList();
         }
 
-        // GET: api/Records/5
+        [HttpGet]
         public RecordModel Get(int id)
         {
             return new RecordModel(_unitOfWork.RecordsRepository.GetById(id));
+        }
+        [HttpGet]
+        public IEnumerable<RecordModel> Get(string monthyear)
+        {
+            DateTime dateTime = DateTime.Parse(monthyear);
+            var records = _unitOfWork.RecordsRepository.Get()
+                .Where(a => a.DateCreated.Month == dateTime.Month && dateTime.Year == a.DateCreated.Year)
+                .Select(a => new RecordModel()
+                {
+                    Text = a.Text,
+                    DateCreated = a.DateCreated,
+                    Description = a.Description,
+                    Id = a.Id,
+                    IsDeleted = a.IsDeleted,
+                    Label = a.Label
+                })
+                .ToList();
+            return records;
         }
 
         // POST: api/Records
@@ -69,6 +87,11 @@ namespace Memoirs.Web2.Controllers.Api
         public void Put(int id, [FromBody]RecordModel value)
         {
             var record = _unitOfWork.RecordsRepository.GetById(id);
+
+            if (DateTime.Now - record.DateCreated < TimeSpan.FromDays(2))
+            {
+                return;
+            }
             record.Text = value.Text;
             record.DateCreated = value.DateCreated;
             record.Description = value.Description;

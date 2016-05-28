@@ -12,13 +12,14 @@
     var RecordsList = Backbone.Collection.extend({
         model: Record,
         url: '/api/records',
+        wait: true,
         //localStorage: new Backbone.LocalStorage('RecordsListLocalStorage'),//??
         comparator: 'Id'//is it works?
     });
 
     var RecordsView = Backbone.View.extend({
         tagName: 'div',
-        className:'list-group-item',
+        className: 'list-group-item',
         template: _.template($('#item-template').html()),
         events: {
             'dblclick .view': 'edit',
@@ -56,7 +57,7 @@
             this.listenTo(Records, 'reset', this.addAll);
             this.listenTo(Records, 'all', this.render);
 
-            Records.fetch();
+            Records.fetch({ data: $.param({ monthyear: (new Date().getMonth() + 1) + '.' + new Date().getFullYear() }) });
         },
         render: function () {
         },
@@ -73,7 +74,15 @@
             if (e.keyCode != 13) return;
             if (!this.newRecordLabel.val()) return;
 
-            Records.create({ Label: this.newRecordLabel.val(), Text: this.newRecordText.val() });
+            Records.create(
+                { Label: this.newRecordLabel.val(), Text: this.newRecordText.val() },
+                {
+                    wait: true, error: function (model, responce) {
+                        //temp solution
+                        alert("error!: " + responce.responseText);
+                    }
+                }
+            );
             this.newRecordLabel.val('');
             this.newRecordText.val('');
         }
