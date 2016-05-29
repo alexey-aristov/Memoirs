@@ -6,9 +6,9 @@ using Memoirs.Common.Entities.Abstract;
 
 namespace Memoirs.EntityFramework {
 	public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class,IEntity {
-		protected readonly DataContext _dataContext;
+		protected readonly DbContext _dataContext;
 		protected readonly DbSet<TEntity> _dbSet;
-		public GenericRepository ( DataContext dataContext ) {
+		public GenericRepository ( DbContext dataContext ) {
 			_dataContext = dataContext;
 			_dbSet = _dataContext.Set<TEntity> ();
 		}

@@ -2,15 +2,21 @@
 using System.Linq;
 using Memoirs.Common;
 using Memoirs.Common.Entities.Abstract;
+using Memoirs.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Memoirs.EntityFramework
 {
-    public class DataContext : DbContext, IDataContext
+    public class AppDataContext : IdentityContext
     {
-        public DataContext()
-            : base("DataConnection") // connectionstring name define in web.config
+        public AppDataContext()
+            : base("DataConnection")
         {
-            this.Configuration.ProxyCreationEnabled = false;
+        }
+
+        public new static AppDataContext Create()
+        {
+            return new AppDataContext();
         }
         public DbSet<RecordBase> Records { get; set; }
         public IQueryable<RecordBase> RecordsQuery

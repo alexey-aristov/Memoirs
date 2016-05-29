@@ -17,7 +17,7 @@ namespace Memoirs.Web2.Controllers
         private SignInManager<ApplicationUser, string> _signInManager;
         private UserManager<ApplicationUser> _userManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser, string> signInManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

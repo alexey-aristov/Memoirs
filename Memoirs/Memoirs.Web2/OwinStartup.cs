@@ -1,7 +1,4 @@
-﻿using System;
-using System.Web;
-using Memoirs.Identity;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -18,14 +15,16 @@ namespace Memoirs.Web2
     {
 
 
-       // private IKernel kernel = null;
+        // private IKernel kernel = null;
         public void Configuration(IAppBuilder app)
         {
             //kernel = CreateKernel();
-            // app.UseNinjectMiddleware(() => kernel);
-            app.CreatePerOwinContext(IdentityContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            //app.CreatePerOwinContext(AppDataContext.Create);
+            //app.UseNinjectMiddleware(() => NinjectWebCommon.CreateKernel());
+            //app.CreatePerOwinContext(AppDataContext.Create);
+            //app.CreatePerOwinContext(IdentityContext.Create);
+            //app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            //app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions()

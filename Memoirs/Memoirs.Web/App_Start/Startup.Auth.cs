@@ -1,4 +1,5 @@
 ﻿using System;
+using Memoirs.EntityFramework;
 using Memoirs.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -15,7 +16,7 @@ namespace Memoirs.Web
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(IdentityContext.Create);
+            app.CreatePerOwinContext(AppDataContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
