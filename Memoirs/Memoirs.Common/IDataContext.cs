@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Memoirs.Common.Entities.Abstract;
+using Memoirs.Common.EntityFramework.Entities.Abstract;
 
 namespace Memoirs.Common
 {

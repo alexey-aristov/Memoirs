@@ -1,12 +1,12 @@
 ﻿using System.Data.Entity;
 using System.Linq;
-using Memoirs.Common;
-using Memoirs.Common.Entities.Abstract;
+using Memoirs.Common.EntityFramework.Entities.Abstract;
+using Memoirs.Common.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Memoirs.EntityFramework
+namespace Memoirs.Common.EntityFramework
 {
-    public class AppDataContext : IdentityContext
+    public class AppDataContext : IdentityDbContext<ApplicationUser>, IDataContext
     {
         public AppDataContext()
             : base("DataConnection")

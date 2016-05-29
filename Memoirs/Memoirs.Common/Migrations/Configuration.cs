@@ -1,18 +1,18 @@
-namespace Memoirs.EntityFramework.Migrations
+namespace Memoirs.Common.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Memoirs.EntityFramework.AppDataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Memoirs.Common.EntityFramework.AppDataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Memoirs.EntityFramework.AppDataContext context)
+        protected override void Seed(Memoirs.Common.EntityFramework.AppDataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

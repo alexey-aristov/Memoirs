@@ -5,7 +5,6 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Ninject;
 using Ninject.Web.Common;
-using Ninject.Web.Common.OwinHost;
 using Owin;
 
 [assembly: OwinStartup(typeof(Memoirs.Web2.OwinStartup))]

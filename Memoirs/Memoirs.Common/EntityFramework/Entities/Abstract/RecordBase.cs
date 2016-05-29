@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using Memoirs.Common.Entities.Enums;
 
-namespace Memoirs.Common.Entities.Abstract {
+namespace Memoirs.Common.EntityFramework.Entities.Abstract {
 	[Table("Records")]
 	public abstract class RecordBase:IEntity {
 		public virtual string Label { get; set; }

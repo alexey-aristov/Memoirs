@@ -1,4 +1,4 @@
-﻿using Memoirs.Common.Entities.Abstract;
+﻿using Memoirs.Common.EntityFramework.Entities.Abstract;
 
 namespace Memoirs.Common {
 	public interface IUnitOfWork {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Memoirs.Common.Entities.Abstract;
+using Memoirs.Common.EntityFramework.Entities.Abstract;
 
 namespace Memoirs.Web2.Models
 {

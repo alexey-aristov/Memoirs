@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Memoirs.EntityFramework;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Memoirs.Identity {
 	public class IdentityContext : IdentityDbContext<ApplicationUser> {

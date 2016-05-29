@@ -381,14 +381,6 @@
       <Project>{DF75D332-BDF1-46CB-B006-A6F1D9501B6B}</Project>
       <Name>Memoirs.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Memoirs.EntityFramework\Memoirs.EntityFramework.csproj">
-      <Project>{A79E6352-696D-4EE6-9E72-2267F489004E}</Project>
-      <Name>Memoirs.EntityFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Memoirs.Identity\Memoirs.Identity.csproj">
-      <Project>{C1077E50-CAE3-483F-B7FB-6AD6C70CD7A7}</Project>
-      <Name>Memoirs.Identity</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\local.pubxml" />

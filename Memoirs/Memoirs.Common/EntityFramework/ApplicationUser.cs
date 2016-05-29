@@ -1,9 +1,11 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Memoirs.Common.EntityFramework.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Memoirs.Identity
+namespace Memoirs.Common.EntityFramework
 {
 	public class ApplicationUser : IdentityUser {
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync ( UserManager<ApplicationUser> manager ) {
@@ -12,5 +14,7 @@ namespace Memoirs.Identity
 			// Add custom user claims here
 			return userIdentity;
 		}
+
+	    public virtual ICollection<Record> Records { get; set; }
 	}
 }

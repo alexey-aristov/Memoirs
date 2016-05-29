@@ -89,6 +89,10 @@
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
@@ -184,9 +188,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -268,7 +269,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="node_modules\backbone\backbone-min.map" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -278,14 +281,6 @@
     <ProjectReference Include="..\Memoirs.Common\Memoirs.Common.csproj">
       <Project>{DF75D332-BDF1-46CB-B006-A6F1D9501B6B}</Project>
       <Name>Memoirs.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Memoirs.EntityFramework\Memoirs.EntityFramework.csproj">
-      <Project>{A79E6352-696D-4EE6-9E72-2267F489004E}</Project>
-      <Name>Memoirs.EntityFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Memoirs.Identity\Memoirs.Identity.csproj">
-      <Project>{C1077E50-CAE3-483F-B7FB-6AD6C70CD7A7}</Project>
-      <Name>Memoirs.Identity</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

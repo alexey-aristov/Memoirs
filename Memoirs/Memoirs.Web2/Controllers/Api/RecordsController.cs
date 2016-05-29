@@ -5,12 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Memoirs.Common;
-using Memoirs.Common.Entities;
-using Memoirs.Common.Entities.Abstract;
-using Memoirs.Identity;
+using Memoirs.Common.EntityFramework;
+using Memoirs.Common.EntityFramework.Entities;
+using Memoirs.Common.Identity;
 using Memoirs.Web2.Models;
 using Microsoft.AspNet.Identity;
-using WebGrease.Css.Extensions;
 
 namespace Memoirs.Web2.Controllers.Api
 {
@@ -20,7 +19,7 @@ namespace Memoirs.Web2.Controllers.Api
         private IUnitOfWork _unitOfWork;
         private UserManager<ApplicationUser> _userManager;
         private string _dateTimeFormat;
-        public RecordsController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
+        public RecordsController(IUnitOfWork unitOfWork, ApplicationUserManager userManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
@@ -31,7 +30,7 @@ namespace Memoirs.Web2.Controllers.Api
         public IEnumerable<RecordModel> Get()
         {
             var user = User.Identity.Name;
-            var records = _unitOfWork.RecordsRepository.Get().Select(a =>
+            var records = _userManager.FindById(User.Identity.GetUserId()).Records.Select(a =>
                 new RecordModel()
                 {
                     Text = a.Text,
@@ -99,14 +98,15 @@ namespace Memoirs.Web2.Controllers.Api
                 throw new ArgumentException("Cannot create second record for a day");
             }
 
-            var record = new SimpleRecord()
+            var record = new Record()
             {
                 Text = value.Text,
                 DateCreated = DateTime.Now,
                 Description = value.Description,
                 Id = value.Id,
                 IsDeleted = value.IsDeleted,
-                Label = value.Label
+                Label = value.Label,
+                UserId = User.Identity.GetUserId()
             };
             _unitOfWork.RecordsRepository.Add(record);
             _unitOfWork.Save();

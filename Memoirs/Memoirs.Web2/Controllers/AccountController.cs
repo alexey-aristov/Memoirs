@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Memoirs.Identity;
+using Memoirs.Common.Identity;
 using Memoirs.Web2.Models.Account;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -14,8 +14,8 @@ namespace Memoirs.Web2.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private SignInManager<ApplicationUser, string> _signInManager;
-        private UserManager<ApplicationUser> _userManager;
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -35,7 +35,7 @@ namespace Memoirs.Web2.Controllers
 
         [AllowAnonymous]
         // GET: Account
-        public async Task<ActionResult> Register()
+        public Task<ActionResult> Register()
         {
             return null;
         }

@@ -5,7 +5,8 @@
                 Id: 0,
                 Label: '',
                 Text: '',
-                Editable: true
+                Editable: true,
+                DateCreatedString:''
             };
         }
     });
