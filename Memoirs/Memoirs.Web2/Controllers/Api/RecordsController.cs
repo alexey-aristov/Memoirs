@@ -56,7 +56,8 @@ namespace Memoirs.Web2.Controllers.Api
         [HttpGet]
         public RecordModel Get(int id)
         {
-            var model = new RecordModel(_unitOfWork.RecordsRepository.GetById(id));
+            var model =
+                new RecordModel(_userManager.FindById(User.Identity.GetUserId()).Records.FirstOrDefault(a => a.Id == id));
 
             model.DateCreatedString = model.DateCreated.ToString(_dateTimeFormat);
             model.Editable = IsEditable(model.DateCreated);
@@ -92,7 +93,7 @@ namespace Memoirs.Web2.Controllers.Api
             {
                 throw new ArgumentException("Atempt to create Record with Id != 0. For update use put method");
             }
-            var todayRecord = _unitOfWork.RecordsRepository.Get().FirstOrDefault(a => a.DateCreated.Month == DateTime.Now.Month && a.DateCreated.Year == DateTime.Now.Year);
+            var todayRecord = _userManager.FindById(User.Identity.GetUserId()).Records.FirstOrDefault(a => a.DateCreated.Month == DateTime.Now.Month && a.DateCreated.Year == DateTime.Now.Year);
             if (todayRecord != null)
             {
                 throw new ArgumentException("Cannot create second record for a day");
@@ -118,7 +119,9 @@ namespace Memoirs.Web2.Controllers.Api
         {
             if (value.Id == 0)
                 throw new ArgumentException("put for new record");
-            var record = _unitOfWork.RecordsRepository.GetById(value.Id);
+            var record = _userManager.FindById(User.Identity.GetUserId()).Records.FirstOrDefault(a => a.Id == value.Id);
+            if (record == null)
+                throw new ArgumentException("record does not exist");
 
             if (!IsEditable(record.DateCreated))
             {
