@@ -39,7 +39,7 @@ namespace Memoirs.Web2.Controllers.Api
                     Id = a.Id,
                     IsDeleted = a.IsDeleted,
                     Label = a.Label
-                }).ToList();
+                }).OrderBy(a=>a.DateCreated).ToList();
             records.ForEach(a =>
             {
                 a.DateCreatedString = a.DateCreated.ToString(_dateTimeFormat);
@@ -77,7 +77,7 @@ namespace Memoirs.Web2.Controllers.Api
                     Id = a.Id,
                     IsDeleted = a.IsDeleted,
                     Label = a.Label
-                }).ToList();
+                }).OrderBy(a => a.DateCreated).ToList();
             records.ForEach(a =>
             {
                 a.DateCreatedString = a.DateCreated.ToString(_dateTimeFormat);
