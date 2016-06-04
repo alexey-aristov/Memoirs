@@ -49,7 +49,9 @@ textarea {
 .container{
     max-width: 900px;
 }
-
+table .records_table_day {
+    padding: 0;
+}
 table .records_table_day:hover {
     background: lightcyan
 }
@@ -63,4 +65,16 @@ table .records_table_day_number {
 .records_table_day .row {
     margin-right: 0px;
     margin-left: 0px;
+}
+.records_table_day {
+    width: 75px;
+    padding: 0;
+}
+
+.records_prev_table_record_label {
+    width: 90%;
+}
+
+.records_prev_table_record_date_tools {
+    width: 10%;
 }

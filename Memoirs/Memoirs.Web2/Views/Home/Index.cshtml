@@ -102,7 +102,17 @@
 
     <script type="text/template" id="template_record_item">
         <div class="row">
-            <div class="col-md-9 col-lg-9 col-sm-9 col-xs-9">
+            <div class="pull-right">
+                <%- DateCreatedDate.getDate() %>
+
+                <% if(Editable){ %>
+                <span title="Edit" class="glyphicon glyphicon-edit records-prev-edit-btn"></span>
+                <span title="Undo" class="glyphicon glyphicon-refresh records-prev-edit-undo"></span>
+                <span title="Save" class="glyphicon glyphicon-save records-prev-edit-confirm"></span>
+                <%}%>
+            </div>
+        </div>
+            <div class="row">
                 <h5 class="list-group-item-heading records-prev-label">
                     <%- Label %>
                 </h5>
@@ -113,19 +123,7 @@
 
 
             </div>
-            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                <div class="row">
-                    <%- DateCreatedDate.getDate() %>
-                </div>
-                <div class="row">
-                    <% if(Editable){ %>
-                    <span title="Edit" class="glyphicon glyphicon-edit records-prev-edit-btn"></span>
-                    <span title="Undo" class="glyphicon glyphicon-refresh records-prev-edit-undo"></span>
-                    <span title="Save" class="glyphicon glyphicon-save records-prev-edit-confirm"></span>
-                    <%}%>
-                </div>
-            </div>
-        </div>
+            
         <div class="row">
             <div class="list-group-item-text records-prev-text">
                 <%- Text %>
