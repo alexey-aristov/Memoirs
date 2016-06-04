@@ -24,32 +24,33 @@ $(document).ready(function () {
         }
     });
 
+    var RecordsUrl = '/api/records';
+
     var RecordsList = Backbone.Collection.extend({
         model: RecordModel,
-        url: '/api/records',
+        url: RecordsUrl,
         wait: true,
-        //localStorage: new Backbone.LocalStorage('RecordsListLocalStorage'),//??
         comparator: 'Id'//is it works?
     });
     var RecordForTableView = Backbone.View.extend({
         isEditingOn: false,
         tagName: 'div',
-        //className: 'list-group-item row',
         template: _.template($('#template_record_item').html()),
         itemId: '',
         render: function () {
-            //var tt = this.template(this.model.attributes);
-            //this.$el.html(tt);
             $(this.el).html(this.template(this.model.attributes));
             return this;
-
         },
         updateModel: function (record) {
             record.attributes.DateCreatedDate = this.model.attributes.DateCreatedDate;
-            this.model = record;
+            this.model.url = function() {
+                return record.url();
+            };
+            this.model.set(record.attributes);
         },
         initialize(options) {
             this.itemId = options.itemId;
+            this.listenTo(this.model, 'change', this.render);
         },
         events: {
             'click .records-prev-edit-btn': 'edit',
@@ -121,7 +122,6 @@ $(document).ready(function () {
         template: _.template($('#template_record_items_table').html()),
         recordTemplate: _.template($('#template_record_item').html()),
         initialize: function (options) {
-
             var firstDayOffset = new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), 1).getDay();
             //TODO possible memory leaks
             this.tableViews = { trs: [] };
@@ -136,8 +136,7 @@ $(document).ready(function () {
                             model: new RecordModel({
                                 DateCreatedDate: dateCreatedDate
                             }),
-                            itemId: itemId,
-
+                            itemId: itemId
                         }),
                         itemId: itemId,
                         isCurrentMonth: dateCreatedDate.getMonth() == CurrentPageDateMonthYear.getMonth()
@@ -159,33 +158,24 @@ $(document).ready(function () {
                     td.view.setElement(self.$el.find('#' + td.itemId)).render();
                 });
             });
-
-            //records_table.render
-
             return this;
-
         },
         addToTable: function (record) {
-            //var recordDate = new Date(record.attributes.DateCreatedString);
             var recordDate = new Date(record.attributes.DateCreatedDate);
-
             var firstDayOffset = new Date(recordDate.getFullYear(), recordDate.getMonth(), 1).getDay();
             var i = (recordDate.getDate() / 7 | 0);
             var j = (recordDate.getDay() - 1);
-
             var date = new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), (i * 7 + (j + 1) - (firstDayOffset - 1)));
 
             if (j >= 0) {
                 this.tableViews.trs[i].tds[j].view.updateModel(record);
                 this.tableViews.trs[i].tds[j].view.render();
             }
-
         },
         dispose: function () {
             _.each(this.tableViews.trs, function (tds) {
                 _.each(tds.tds, function (td) {
                     td.view.dispose();
-                   
                 });
             });
             this.tableViews = { trs: [] };
@@ -268,12 +258,8 @@ $(document).ready(function () {
             this.$('.records-prev-edit-undo').hide();
             this.$('.records-prev-edit-btn').show();
         },
-        dispose: function () {
-
-        }
+        dispose: function () {}
     });
-
-
 
     var App = Backbone.View.extend({
         recordsList: new RecordsList,
@@ -293,42 +279,31 @@ $(document).ready(function () {
             this.listenTo(this.recordsList, 'all', this.render);
 
             this.recordsList.fetch({ data: $.param({ monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear() }) });
-            //$('temp_id').append();
-            //var tableTemplate = new RecordsTableView();
             if (this.recordsAsTable) {
-                // this.tableView.
                 this.$el.append(this.tableView.render().el);
             }
         },
-        render: function () {
-
-        },
+        render: function () {},
         addOne: function (record) {
             if (this.recordsAsTable) {
-
-
                 if (record.attributes.DateCreatedDate == undefined) {
                     if (record.attributes.DateCreatedString == undefined || record.attributes.DateCreatedString == '') {
                         record.attributes.DateCreatedDate = CurrentPageDateMonthYear;
                         record.attributes.DateCreatedString = CurrentPageDateMonthYear.toDateString();
                     } else {
-
                         record.attributes.DateCreatedDate = new Date(record.attributes.DateCreated);
                     }
                 }
-                // $('#record_' + locator).append(record.attributes.Label);
                 this.tableView.addToTable(record);
-                //  this.tableView.render();
+
             } else {
                 var view = new RecordView({
                     model: record
                 });
                 this.$('#prev_records').prepend(view.render().el);
             }
-
         },
         addAll: function () {
-
             this.recordsList.each(this.addOne, this);
         },
         createOnEnter: function (e) {
@@ -387,9 +362,6 @@ $(document).ready(function () {
                     recordsAsTable: false
                 });
             }
-
-            //application.render();
-
         },
         table: function () {
             if (application == undefined) {
@@ -401,12 +373,10 @@ $(document).ready(function () {
                     recordsAsTable: true
                 });
             }
-            //application.render();
         }
     });
 
     var router = new Router();
     Backbone.history.start();
-
 
 });
