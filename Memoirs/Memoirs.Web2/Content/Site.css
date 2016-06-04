@@ -60,3 +60,7 @@ table .records_table_day_number {
 .records_table_day_another_month {
     background-color: rgb(240, 240, 240);
 }
+.records_table_day .row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
