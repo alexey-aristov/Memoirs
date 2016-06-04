@@ -111,6 +111,10 @@ $(document).ready(function () {
             this.$('.records-prev-edit-confirm').hide();
             this.$('.records-prev-edit-undo').hide();
             this.$('.records-prev-edit-btn').show();
+        },
+        dispose: function () {
+            this.undelegateEvents();
+            this.remove();
         }
     });
     var RecordsTableView = Backbone.View.extend({
@@ -119,6 +123,9 @@ $(document).ready(function () {
         initialize: function (options) {
 
             var firstDayOffset = new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), 1).getDay();
+            //TODO possible memory leaks
+            this.tableViews = { trs: [] };
+            this.table = { trs: [] };
             for (var i = 0; i < new Date().getWeeksCount() ; i++) {
                 var tds = [];
                 for (var j = 0; j < 7; j++) {
@@ -130,7 +137,7 @@ $(document).ready(function () {
                                 DateCreatedDate: dateCreatedDate
                             }),
                             itemId: itemId,
-                            
+
                         }),
                         itemId: itemId,
                         isCurrentMonth: dateCreatedDate.getMonth() == CurrentPageDateMonthYear.getMonth()
@@ -168,14 +175,23 @@ $(document).ready(function () {
 
             var date = new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), (i * 7 + (j + 1) - (firstDayOffset - 1)));
 
-            //this.table.trs[i].tds[j] = {
-            //    locator: 'record_' + j + '_' + i,
-            //    date: date.getDate(),
-            //    item: record.attributes,
-            //    recordTemplate: this.recordTemplate
-            //};
-            this.tableViews.trs[i].tds[j].view.updateModel(record);
-            this.tableViews.trs[i].tds[j].view.render();
+            if (j >= 0) {
+                this.tableViews.trs[i].tds[j].view.updateModel(record);
+                this.tableViews.trs[i].tds[j].view.render();
+            }
+
+        },
+        dispose: function () {
+            _.each(this.tableViews.trs, function (tds) {
+                _.each(tds.tds, function (td) {
+                    td.view.dispose();
+                   
+                });
+            });
+            this.tableViews = { trs: [] };
+            this.table = { trs: [] };
+            this.undelegateEvents();
+            this.remove();
         }
     });
     var RecordView = Backbone.View.extend({
@@ -251,6 +267,9 @@ $(document).ready(function () {
             this.$('.records-prev-edit-confirm').hide();
             this.$('.records-prev-edit-undo').hide();
             this.$('.records-prev-edit-btn').show();
+        },
+        dispose: function () {
+
         }
     });
 
@@ -258,13 +277,15 @@ $(document).ready(function () {
 
     var App = Backbone.View.extend({
         recordsList: new RecordsList,
+        recordsAsTable: false,
         el: $('#app'),
         events: {
             'keypress #new_record_label': 'createOnEnter',
             'keypress #new_record_text': 'createOnEnter'
         },
         tableView: new RecordsTableView(),
-        initialize: function () {
+        initialize: function (options) {
+            this.recordsAsTable = options.recordsAsTable;
             this.newRecordLabel = this.$('#new_record_label');
             this.newRecordText = this.$('#new_record_text');
             this.listenTo(this.recordsList, 'add', this.addOne);
@@ -274,7 +295,7 @@ $(document).ready(function () {
             this.recordsList.fetch({ data: $.param({ monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear() }) });
             //$('temp_id').append();
             //var tableTemplate = new RecordsTableView();
-            if (location.hash === '#table') {
+            if (this.recordsAsTable) {
                 // this.tableView.
                 this.$el.append(this.tableView.render().el);
             }
@@ -283,7 +304,7 @@ $(document).ready(function () {
 
         },
         addOne: function (record) {
-            if (location.hash === '#table') {
+            if (this.recordsAsTable) {
 
 
                 if (record.attributes.DateCreatedDate == undefined) {
@@ -334,7 +355,58 @@ $(document).ready(function () {
             );
             this.newRecordLabel.val('');
             this.newRecordText.val('');
+        },
+        reinit: function (options) {
+            this.recordsAsTable = options.recordsAsTable;
+            this.$('#prev_records').html('');
+            this.tableView.undelegateEvents();
+            this.tableView.dispose();
+            this.tableView.remove();
+            this.recordsList.fetch({ data: $.param({ monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear() }) });
+
+            if (this.recordsAsTable) {
+                this.tableView = new RecordsTableView();
+                this.$el.append(this.tableView.render().el);
+            }
         }
     });
-    var a = new App;
+    var application = undefined;
+    var Router = Backbone.Router.extend({
+        routes: {
+            '': 'index',
+            'index': 'index',
+            'table': 'table'
+        },
+        index: function () {
+            if (application == undefined) {
+                application = new App({
+                    recordsAsTable: false
+                });
+            } else {
+                application.reinit({
+                    recordsAsTable: false
+                });
+            }
+
+            //application.render();
+
+        },
+        table: function () {
+            if (application == undefined) {
+                application = new App({
+                    recordsAsTable: true
+                });
+            } else {
+                application.reinit({
+                    recordsAsTable: true
+                });
+            }
+            //application.render();
+        }
+    });
+
+    var router = new Router();
+    Backbone.history.start();
+
+
 });
