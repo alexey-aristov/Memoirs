@@ -2,28 +2,52 @@
     ViewBag.Title = "Home Page";
 }
 
-<div id="app">
+<div id="app" class="table-bordered">
 
-    <div class="jumbotron">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+    <div class="row">
+        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4"></div>
+        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
             <h1>Records</h1>
             <input id="new_record_label" type="text" class="form-control" placeholder="Best event!">
             <textarea id="new_record_text" class="form-control" placeholder="Event description"></textarea>
         </div>
 
-        <div class="col-md-2"></div>
+        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4"></div>
     </div>
     <div class="row" id="main">
-        <div class="col-md-3"></div>
-        <div class="list-group col-md-6" id="prev_records"></div>
-        <div class="col-md-3"></div>
-    </div>
 
+        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3"></div>
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="row">
+                <div class="pull-right">
+                    @*TODO:do it right  *@
+                    <a href="/#table">
+                        <span class="glyphicon glyphicon-th">
+
+                        </span>
+                    </a>
+                    <a href="/">
+                        <span class="glyphicon glyphicon-th-list">
+
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="list-group" id="prev_records"></div>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3"></div>
+    </div>
+    <div id="records_table">
+
+    </div>
     @*<footer style="display: none;">
             <a id="clear-completed">Clear completed</a>
             <div id="todo-count"></div>
         </footer>*@
+
+</div>
+
+<div id="temp_id">
 
 </div>
 
@@ -41,9 +65,56 @@
                 <%- Text %>
             </p>
             <% if(Editable){ %>
+            <input type="text" class="form-control records-prev-edit-label" placeholder="Best event!">
+            <textarea class="form-control records-prev-edit-text" placeholder="Event description"></textarea>
+            <%}%>
+        </div>
+        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
+
+            @*<span class="glyphicon glyphicon-remove-circle"></span>*@
+            <% if(Editable){ %>
+            <span title="Edit" class="glyphicon glyphicon-edit records-prev-edit-btn"></span>
+            <span title="Undo" class="glyphicon glyphicon-refresh records-prev-edit-undo"></span>
+            <span title="Save" class="glyphicon glyphicon-save records-prev-edit-confirm"></span>
+            <%}%>
+
+
+        </div>
+    </script>
+
+    <script type="text/template" id="template_record_items_table">
+        <table class="table table-bordered">
+            <% _.each(trs,function(tr){%>
+            <tr>
+                <% _.each(tr.tds,function(td){%>
+                <td id="<%-td.itemId%>" class="records_table_day">
+                    @*<%= td.recordTemplate({
+                            item:td.item,
+                            date:td.date
+                        }) %>*@
+                </td>
+                <%});%>
+            </tr>
+            <%});%>
+        </table>
+    </script>
+
+    <script type="text/template" id="template_record_item">
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11">
+            <%- DateCreatedDate.getDate() %>
+            <h5 class="list-group-item-heading records-prev-label">
+                @*<%- item.Label %>*@
+                <%- Label %>
+            </h5>
+            <div>@*<%- date %>*@</div>
+
+            <p class="list-group-item-text records-prev-text">
+                @*<%- item.Text %>*@
+            </p>
+            <% if(Editable){ %>
                 <input type="text" class="form-control records-prev-edit-label" placeholder="Best event!">
                 <textarea class="form-control records-prev-edit-text" placeholder="Event description"></textarea>
-            <%}%>
+                <%}%>
         </div>
         <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
 
@@ -52,9 +123,9 @@
                 <span title="Edit" class="glyphicon glyphicon-edit records-prev-edit-btn"></span>
                 <span title="Undo" class="glyphicon glyphicon-refresh records-prev-edit-undo"></span>
                 <span title="Save" class="glyphicon glyphicon-save records-prev-edit-confirm"></span>
-            <%}%>
-            
-            
+                <%}%>
+
+
         </div>
     </script>
 

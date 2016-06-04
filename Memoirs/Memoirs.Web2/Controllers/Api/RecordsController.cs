@@ -23,7 +23,7 @@ namespace Memoirs.Web2.Controllers.Api
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
-            _dateTimeFormat = "dd-MM-yyyy";
+            _dateTimeFormat = "yyyy-MM-dd";
         }
 
         // GET: api/Records
@@ -93,7 +93,7 @@ namespace Memoirs.Web2.Controllers.Api
             {
                 throw new ArgumentException("Atempt to create Record with Id != 0. For update use put method");
             }
-            var todayRecord = _userManager.FindById(User.Identity.GetUserId()).Records.FirstOrDefault(a => a.DateCreated.Month == DateTime.Now.Month && a.DateCreated.Year == DateTime.Now.Year);
+            var todayRecord = _userManager.FindById(User.Identity.GetUserId()).Records.FirstOrDefault(a => a.DateCreated.Month == DateTime.Now.Month && a.DateCreated.Year == DateTime.Now.Year && a.DateCreated.Day == DateTime.Now.Day);
             if (todayRecord != null)
             {
                 throw new ArgumentException("Cannot create second record for a day");

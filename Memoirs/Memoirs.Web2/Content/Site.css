@@ -45,3 +45,14 @@ textarea {
 .records-prev-edit-undo {
         display: none;
 }
+
+.container{
+    max-width: 900px;
+}
+
+table .records_table_day:hover {
+    background: lightcyan
+}
+table .records_table_day_number {
+    width: 10px
+}
