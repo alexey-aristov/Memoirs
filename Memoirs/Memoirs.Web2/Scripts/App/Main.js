@@ -38,13 +38,11 @@ $(document).ready(function () {
         template: _.template($('#template_record_item').html()),
         itemId: '',
         render: function () {
-            var tt = this.template(this.model.attributes);
-            this.$el.html(tt);
+            //var tt = this.template(this.model.attributes);
+            //this.$el.html(tt);
+            $(this.el).html(this.template(this.model.attributes));
             return this;
 
-        },
-        reRender: function () {
-            $('#' + this.itemId).html(this.render().$el.html());
         },
         updateModel: function (record) {
             record.attributes.DateCreatedDate = this.model.attributes.DateCreatedDate;
@@ -53,46 +51,89 @@ $(document).ready(function () {
         initialize(options) {
             this.itemId = options.itemId;
         },
+        events: {
+            'click .records-prev-edit-btn': 'edit',
+            'click .records-prev-edit-confirm': 'confirmEdit',
+            'click .records-prev-edit-undo': 'undoEdit',
+            'keypress .records-prev-edit-text': 'confirmEditOnKey',
+            'keypress .records-prev-edit-label': 'confirmEditOnKey'
+        },
+        edit: function (param) {
+            if (this.isEditingOn) {
+                return;
+            }
+            this.isEditingOn = true;
+            this.$('.records-prev-edit-text').val(this.model.attributes.Text);
+            this.$('.records-prev-edit-label').val(this.model.attributes.Label);
+            this.$('.records-prev-edit-text,.records-prev-edit-label,.records-prev-edit-confirm').show();
+            this.$('.records-prev-text,.records-prev-label').hide();
+            this.$('.records-prev-edit-confirm').show();
+            this.$('.records-prev-edit-undo').show();
+            this.$('.records-prev-edit-btn').hide();
+        },
+        confirmEditOnKey(e) {
+            if (e.keyCode == 13)
+                this.confirmEdit();
+        },
+        confirmEdit: function () {
+            this.isEditingOn = false;
+            this.model.set({
+                "Label": this.$('.records-prev-edit-label').val(),
+                "Text": this.$('.records-prev-edit-text').val()
+            });
+            Backbone.sync('update', this.model, {
+                wait: true,
+                error: function (responce) {
+                    this.model.fetch({
+                        url: this.model.url() + '/' + this.model.attributes.Id
+                    });
+                    this.render();
+                    //temp
+                    alert("update failed:" + responce.responseText);
+                }.bind(this)
+            });
+            this.$('.records-prev-text,.records-prev-label').show();
+            this.$('.records-prev-edit-label').hide();
+            this.$('.records-prev-edit-text').hide();
+            this.$('.records-prev-edit-confirm').hide();
+            this.$('.records-prev-edit-undo').hide();
+            this.$('.records-prev-edit-btn').show();
+        },
+        undoEdit: function () {
+            this.isEditingOn = false;
+            this.model.fetch({
+                url: this.model.url() + '/' + this.model.attributes.Id
+            });
+            this.render();
+            this.$('.records-prev-text,.records-prev-label').show();
+            this.$('.records-prev-edit-label').hide();
+            this.$('.records-prev-edit-text').hide();
+            this.$('.records-prev-edit-confirm').hide();
+            this.$('.records-prev-edit-undo').hide();
+            this.$('.records-prev-edit-btn').show();
+        }
     });
     var RecordsTableView = Backbone.View.extend({
         template: _.template($('#template_record_items_table').html()),
         recordTemplate: _.template($('#template_record_item').html()),
         initialize: function (options) {
-            //var firstDayOffset = new Date(CurrentPageMonthYear.getFullYear(), CurrentPageMonthYear.getMonth(), 1).getDay();
-            //for (var i = 0; i < new Date().getWeeksCount(); i++) {
-            //    var tds = [];
-            //    for (var j = 0; j < 7; j++) {
-            //        var date = new Date(CurrentPageMonthYear.getFullYear(), CurrentPageMonthYear.getMonth(), (i * 7 + (j + 1) - (firstDayOffset - 1)));
-            //        tds.push({
-            //            locator: 'record_' + j + '_' + i,
-            //            date: date.getDate(),
-            //            item: {
-            //                Label: '',
-            //                DateCreatedString: '',
-            //                Text: '',
-            //                Editable: false
-            //            },
-            //            recordTemplate: this.recordTemplate
-            //        });
-            //    }
-            //    this.table.trs.push({
-            //        'tds': tds
-            //    });
-            //}
 
             var firstDayOffset = new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), 1).getDay();
             for (var i = 0; i < new Date().getWeeksCount() ; i++) {
                 var tds = [];
                 for (var j = 0; j < 7; j++) {
                     var itemId = 'record_' + j + '_' + i;
+                    var dateCreatedDate = new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), (i * 7 + (j + 1) - (firstDayOffset - 1)));
                     var view = {
                         view: new RecordForTableView({
                             model: new RecordModel({
-                                DateCreatedDate: new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), (i * 7 + (j + 1) - (firstDayOffset - 1)))
+                                DateCreatedDate: dateCreatedDate
                             }),
-                            itemId: itemId
+                            itemId: itemId,
+                            
                         }),
-                        itemId: itemId
+                        itemId: itemId,
+                        isCurrentMonth: dateCreatedDate.getMonth() == CurrentPageDateMonthYear.getMonth()
                     };
                     tds.push(view);
                 }
@@ -104,14 +145,14 @@ $(document).ready(function () {
         tableViews: { trs: [] },
         table: { trs: [] },
         render: function () {
-            var table = $(this.template(this.tableViews));
-            //
+            $(this.el).html(this.template(this.tableViews));
+            var self = this;
             _.each(this.tableViews.trs, function (tds) {
                 _.each(tds.tds, function (td) {
-                    table.find('#' + td.itemId).html(td.view.render().$el.html());
+                    td.view.setElement(self.$el.find('#' + td.itemId)).render();
                 });
             });
-            this.$el.html(table.html());
+
             //records_table.render
 
             return this;
@@ -134,7 +175,7 @@ $(document).ready(function () {
             //    recordTemplate: this.recordTemplate
             //};
             this.tableViews.trs[i].tds[j].view.updateModel(record);
-            this.tableViews.trs[i].tds[j].view.reRender();
+            this.tableViews.trs[i].tds[j].view.render();
         }
     });
     var RecordView = Backbone.View.extend({

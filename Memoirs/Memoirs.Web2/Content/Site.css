@@ -56,3 +56,7 @@ table .records_table_day:hover {
 table .records_table_day_number {
     width: 10px
 }
+
+.records_table_day_another_month {
+    background-color: rgb(240, 240, 240);
+}

@@ -87,7 +87,8 @@
             <% _.each(trs,function(tr){%>
             <tr>
                 <% _.each(tr.tds,function(td){%>
-                <td id="<%-td.itemId%>" class="records_table_day">
+                <td id="<%-td.itemId%>" class="records_table_day<%if(!td.isCurrentMonth){%> records_table_day_another_month<%}%>">
+
                     @*<%= td.recordTemplate({
                             item:td.item,
                             date:td.date
