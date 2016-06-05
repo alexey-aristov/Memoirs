@@ -277,6 +277,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <None Include="Properties\PublishProfiles\local.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Memoirs.Common\Memoirs.Common.csproj">
