@@ -208,6 +208,7 @@
     <Compile Include="Controllers\Api\PicturesController.cs" />
     <Compile Include="Controllers\Api\RecordsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\ErrorFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -283,6 +284,10 @@
     <ProjectReference Include="..\Memoirs.Common\Memoirs.Common.csproj">
       <Project>{DF75D332-BDF1-46CB-B006-A6F1D9501B6B}</Project>
       <Name>Memoirs.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Memoirs.Logging\Memoirs.Logging.csproj">
+      <Project>{86BA83C0-E2F0-4487-92A8-A385FAE952BC}</Project>
+      <Name>Memoirs.Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

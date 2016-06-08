@@ -1,10 +1,13 @@
 using System;
 using System.Data.Entity;
 using System.Web;
+using System.Web.Http.Filters;
 using Memoirs.Common;
 using Memoirs.Common.EntityFramework;
 using Memoirs.Common.Identity;
+using Memoirs.Logging;
 using Memoirs.Web2;
+using Memoirs.Web2.Filters;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
@@ -12,6 +15,8 @@ using Microsoft.Owin.Security;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
+using Ninject.Web.Mvc.FilterBindingSyntax;
+using Ninject.Web.WebApi.FilterBindingSyntax;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
@@ -69,7 +74,6 @@ namespace Memoirs.Web2
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<IUnitOfWork>().To<UnitOfWorkEf>().InRequestScope();
-            //kernel.Bind<DbContext>().ToMethod(c => HttpContext.Current.GetOwinContext().Get<AppDataContext>());
             kernel.Bind<DbContext>().To<AppDataContext>().InRequestScope();
             kernel.Bind<IUserStore<ApplicationUser>>().To<UserStore<ApplicationUser>>().InRequestScope();
 
@@ -77,15 +81,9 @@ namespace Memoirs.Web2
             kernel.Bind<ApplicationUserManager>().ToSelf().InRequestScope();
             kernel.Bind<IOwinContext>().ToMethod(a => HttpContext.Current.GetOwinContext());
             kernel.Bind<IAuthenticationManager>().ToMethod(a => HttpContext.Current.GetOwinContext().Authentication).InRequestScope();
-            //kernel.Bind(IAuthenticationManager)
+            kernel.Bind<ILogger>().To<NLogLogger>().WithConstructorArgument("currentClassName", x => x.Request.ParentContext.Request.Service.FullName);
 
-            //kernel.Bind<IAuthenticationManager>().ToMethod(
-            //        c => HttpContext.Current.GetOwinContext().Authentication).InRequestScope();
-
-            //kernel.Bind<SignInManager<ApplicationUser, string>>().ToMethod(
-            //    c => HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>()).InRequestScope();
-            //kernel.Bind<UserManager<ApplicationUser>>().ToMethod(
-            //    c => HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>()).InRequestScope();
+            kernel.BindHttpFilter<ErrorFilter>(FilterScope.Global);
         }
     }
 }

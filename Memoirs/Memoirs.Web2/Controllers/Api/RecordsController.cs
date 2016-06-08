@@ -18,17 +18,21 @@ namespace Memoirs.Web2.Controllers.Api
     {
         private IUnitOfWork _unitOfWork;
         private UserManager<ApplicationUser> _userManager;
+        private ILogger _logger;
         private string _dateTimeFormat;
-        public RecordsController(IUnitOfWork unitOfWork, ApplicationUserManager userManager)
+
+        public RecordsController(IUnitOfWork unitOfWork, ApplicationUserManager userManager, ILogger logger)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _logger = logger;
             _dateTimeFormat = "yyyy-MM-dd";
         }
 
         // GET: api/Records
         public IEnumerable<RecordModel> Get()
         {
+            _logger.Debug("get all");
             var user = User.Identity.Name;
             var records = _userManager.FindById(User.Identity.GetUserId()).Records.Select(a =>
                 new RecordModel()
@@ -39,7 +43,7 @@ namespace Memoirs.Web2.Controllers.Api
                     Id = a.Id,
                     IsDeleted = a.IsDeleted,
                     Label = a.Label
-                }).OrderBy(a=>a.DateCreated).ToList();
+                }).OrderBy(a => a.DateCreated).ToList();
             records.ForEach(a =>
             {
                 a.DateCreatedString = a.DateCreated.ToString(_dateTimeFormat);
@@ -56,6 +60,7 @@ namespace Memoirs.Web2.Controllers.Api
         [HttpGet]
         public RecordModel Get(int id)
         {
+            _logger.Debug("get {0}",id.ToString());
             var model =
                 new RecordModel(_userManager.FindById(User.Identity.GetUserId()).Records.FirstOrDefault(a => a.Id == id));
 
@@ -118,7 +123,7 @@ namespace Memoirs.Web2.Controllers.Api
         public void Put([FromBody]RecordModel value)
         {
             if (value.Id == 0)
-                throw new ArgumentException("put for new record");
+                throw new ArgumentException("put for new recordis not allowed");
             var record = _userManager.FindById(User.Identity.GetUserId()).Records.FirstOrDefault(a => a.Id == value.Id);
             if (record == null)
                 throw new ArgumentException("record does not exist");
