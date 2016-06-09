@@ -72,7 +72,7 @@ namespace Memoirs.Web2.Controllers.Api
         public IEnumerable<RecordModel> Get(string monthyear)
         {
             DateTime dateTime = DateTime.Parse(monthyear);
-            var records = _unitOfWork.RecordsRepository.Get()
+            var records = _userManager.FindById(User.Identity.GetUserId()).Records
                 .Where(a => a.DateCreated.Month == dateTime.Month && dateTime.Year == a.DateCreated.Year)
                 .Select(a => new RecordModel()
                 {

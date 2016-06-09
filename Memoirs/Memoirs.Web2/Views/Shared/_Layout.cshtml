@@ -33,8 +33,9 @@
         </footer>
     </div>
 
+    
+    @RenderSection("scripts", required: false)
     @Scripts.Render("~/bundles/js")
     @Scripts.Render("~/bundles/app")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

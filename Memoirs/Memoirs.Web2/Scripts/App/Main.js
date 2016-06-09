@@ -277,21 +277,31 @@ $(document).ready(function () {
             this.listenTo(this.recordsList, 'add', this.addOne);
             this.listenTo(this.recordsList, 'reset', this.addAll);
             this.listenTo(this.recordsList, 'all', this.render);
+            this.listenTo(this.recordsList, 'sync', this.recodsListSync);
 
             this.recordsList.fetch({ data: $.param({ monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear() }) });
             if (this.recordsAsTable) {
                 this.$el.append(this.tableView.render().el);
             }
         },
-        render: function () {},
+        render: function() {
+            
+        },
         addOne: function (record) {
+            if (record.Id == 0) {
+                return;//it have to be handle in sync
+            }
+            this.addRecordToView(record);
+
+        },
+        addRecordToView: function(record) {
             if (this.recordsAsTable) {
                 if (record.attributes.DateCreatedDate == undefined) {
                     if (record.attributes.DateCreatedString == undefined || record.attributes.DateCreatedString == '') {
                         record.attributes.DateCreatedDate = CurrentPageDateMonthYear;
                         record.attributes.DateCreatedString = CurrentPageDateMonthYear.toDateString();
                     } else {
-                        record.attributes.DateCreatedDate = new Date(record.attributes.DateCreated);
+                        record.attributes.DateCreatedDate = new Date(record.attributes.DateCreated.split('T')[0]);
                     }
                 }
                 this.tableView.addToTable(record);
@@ -316,6 +326,7 @@ $(document).ready(function () {
                 Editable: true
             };
             var record;
+            var self = this;
             record = this.recordsList.create(
                 newRecord,
                 {
@@ -324,7 +335,7 @@ $(document).ready(function () {
                         alert("error!: " + responce.responseText);
                     },
                     success: function (a1, a2) {
-                        record.attributes.Id = a2;
+                        a1.set({ Id: a2 });
                     }
                 }
             );
@@ -343,6 +354,10 @@ $(document).ready(function () {
                 this.tableView = new RecordsTableView();
                 this.$el.append(this.tableView.render().el);
             }
+        },
+        recodsListSync: function (model, options) {
+            if(model.models==undefined) //filter event on initial sync
+                this.addRecordToView(model);
         }
     });
     var application = undefined;
