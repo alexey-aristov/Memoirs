@@ -165,6 +165,8 @@ $(document).ready(function () {
             var firstDayOffset = new Date(recordDate.getFullYear(), recordDate.getMonth(), 1).getDay();
             var i = (recordDate.getDate() / 7 | 0);
             var j = (recordDate.getDay() - 1);
+            if (j == -1)
+                j = 6;
             var date = new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), (i * 7 + (j + 1) - (firstDayOffset - 1)));
 
             if (j >= 0) {
