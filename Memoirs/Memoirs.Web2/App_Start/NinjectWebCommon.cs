@@ -26,6 +26,7 @@ namespace Memoirs.Web2
     public static class NinjectWebCommon
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        public static Bootstrapper Bootstrapper => bootstrapper;
 
         /// <summary>
         /// Starts the application
@@ -35,6 +36,7 @@ namespace Memoirs.Web2
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             bootstrapper.Initialize(CreateKernel);
+            
         }
 
         /// <summary>
@@ -79,11 +81,15 @@ namespace Memoirs.Web2
 
             kernel.Bind<ApplicationSignInManager>().ToSelf().InRequestScope();
             kernel.Bind<ApplicationUserManager>().ToSelf().InRequestScope();
-            kernel.Bind<IOwinContext>().ToMethod(a => HttpContext.Current.GetOwinContext());
+            kernel.Bind<IOwinContext>().ToMethod(a => HttpContext.Current.GetOwinContext()).InRequestScope();
+
             kernel.Bind<IAuthenticationManager>().ToMethod(a => HttpContext.Current.GetOwinContext().Authentication).InRequestScope();
             kernel.Bind<ILogger>().To<NLogLogger>().WithConstructorArgument("currentClassName", x => x.Request.ParentContext.Request.Service.FullName);
 
             kernel.BindHttpFilter<ErrorFilter>(FilterScope.Global);
+            //kernel.BindHttpFilter<AuthFilter>()
         }
+
+        
     }
 }

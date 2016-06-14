@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System;
+using System.Web.Http;
+using Memoirs.Web2.Utils;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
 using Ninject;
 using Ninject.Web.Common;
+using Ninject.Web.Common.OwinHost;
 using Owin;
 
 [assembly: OwinStartup(typeof(Memoirs.Web2.OwinStartup))]
@@ -17,14 +22,18 @@ namespace Memoirs.Web2
         // private IKernel kernel = null;
         public void Configuration(IAppBuilder app)
         {
-            //kernel = CreateKernel();
-            //app.CreatePerOwinContext(AppDataContext.Create);
-            //app.UseNinjectMiddleware(() => NinjectWebCommon.CreateKernel());
-            //app.CreatePerOwinContext(AppDataContext.Create);
-            //app.CreatePerOwinContext(IdentityContext.Create);
-            //app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            //app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            var oAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/api/Account/Login"),
+                Provider = new AppOAuthProvider(),
+                AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                // In production mode set AllowInsecureHttp = false
+                AllowInsecureHttp = true,
 
+            };
+            app.UseOAuthBearerTokens(oAuthOptions);
+            
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
