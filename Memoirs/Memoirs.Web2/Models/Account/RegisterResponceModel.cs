@@ -5,11 +5,10 @@ using System.Web;
 
 namespace Memoirs.Web2.Models.Account
 {
-    public class RegisterModel
+    public class RegisterResponceModel
     {
         public string Login { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string PasswordConfirm { get; set; }
+        public string RegisterStatus { get; set; }
+        public IEnumerable<string> Errors { get; set; }
     }
 }

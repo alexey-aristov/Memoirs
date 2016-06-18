@@ -43,7 +43,6 @@ namespace Memoirs.Web2.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
             if (!ModelState.IsValid)

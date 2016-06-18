@@ -39,6 +39,16 @@
         color: black;
         z-index: 10;
     }
+    #switch_to_register_btn:hover{
+        cursor: pointer;
+    }
+    #switch_to_login_btn:hover {
+        cursor: pointer;
+    }
+    #register_errors_list {
+        color: red;
+    }
+
 </style>
 @*<video autoplay="autoplay" id="video-background" preload="auto" loop>
         <source src="/home/video" type="video/mp4">
@@ -66,7 +76,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Log in" class="btn btn-default" />
-                <a class="btn btn-primary" id="register_btn">Register</a>
+                <a class="btn btn-primary" id="switch_to_register_btn">Register</a>
             </div>
         </div>
         @* Enable this once you have account confirmation enabled for password reset functionality
@@ -79,26 +89,41 @@
         @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
-            <h4>register</h4>
+            <h4>Register</h4>
             <hr />
 
             <div class="form-group">
                 <label class="col-md-2 control-label">Login</label>
                 <div class="col-md-10">
-                    <input class="form-control" name="Login" type="text" value="">
+                    <input class="form-control" name="Login" type="text" value="" id="register_login_input">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Email</label>
+                <div class="col-md-10">
+                    <input class="form-control" name="Email" type="text" value="" id="register_email_input">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">Password</label>
                 <div class="col-md-10">
-                    <input class="form-control" name="Password" type="password">
+                    <input class="form-control" name="Password" type="password" id="register_password_input">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Password Confirmation</label>
+                <div class="col-md-10">
+                    <input class="form-control" name="PasswordConfirm" type="password" id="register_password_confirm_input">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Log in" class="btn btn-default"/>
-                    <a class="btn btn-primary" id="login_btn">Login</a>
+                    <input type="submit" value="Register now!" class="btn btn-default" id="register_submit_btn"/>
+                    <a class="btn btn-primary" id="switch_to_login_btn">Login</a>
                 </div>
+            </div>
+            <div class="form-group">
+                <ul id="register_errors_list"></ul>
             </div>
 
         }
@@ -110,15 +135,18 @@
     </div>*@
 
 @Scripts.Render("~/bundles/js")
+@Scripts.Render("~/bundles/login")
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#register_btn').click(function() {
+    $(document).ready(function () {
+        
+
+        $('#switch_to_register_btn').click(function() {
             $('#login_form').fadeOut(700,function() {
 
                 $('#register_form').fadeIn(700);
             });
         });
-        $('#login_btn').click(function () {
+        $('#switch_to_login_btn').click(function () {
             $('#register_form').fadeOut(700, function () {
 
                 $('#login_form').fadeIn(700);

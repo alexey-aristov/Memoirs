@@ -221,6 +221,7 @@
     </Compile>
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
+    <Compile Include="Models\Account\RegisterResponceModel.cs" />
     <Compile Include="Models\RecordModel.cs" />
     <Compile Include="OwinStartup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -262,6 +263,7 @@
     </Content>
     <Content Include="node_modules\jquery\dist\jquery.min.map" />
     <Content Include="node_modules\underscore\underscore-min.map" />
+    <Content Include="Scripts\App\Login.js" />
     <Content Include="Scripts\App\Main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
