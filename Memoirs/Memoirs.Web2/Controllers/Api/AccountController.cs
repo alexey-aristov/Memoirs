@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Memoirs.Common;
 using Memoirs.Common.Identity;
+using Memoirs.Web2.Models.Account;
+using Memoirs.Web2.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -23,31 +26,13 @@ namespace Memoirs.Web2.Controllers.Api
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        [HttpGet]
-        public async Task<int> Login(string login, string password)
-        {
-            if (!ModelState.IsValid)
-            {
-                return -1;
-            }
-            
-            var result = await _signInManager.PasswordSignInAsync(login, password, false, false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return 0;
-                case SignInStatus.LockedOut:
-                case SignInStatus.Failure:
-                default:
-                    throw new ApiException() {ExplicitDescription = "Invalid login attempt." };
-            }
-            return 0;
-        }
-        [HttpGet]
-        public async Task<int> Logout()
-        {
-            _signInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return 0;
-        }
+        
+        //[HttpGet]
+        //public async Task<int> Logout()
+        //{
+        //    //review it!
+        //    _signInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+        //    return 0;
+        //}
     }
 }

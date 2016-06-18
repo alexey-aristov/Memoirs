@@ -86,23 +86,10 @@ namespace Memoirs.Web2.Utils
                 return;
             }
 
-            ClaimsIdentity oAuthIdentity =
-                await userManager.CreateIdentityAsync(user, OAuthDefaults.AuthenticationType);
-            ClaimsIdentity cookiesIdentity = await userManager.CreateIdentityAsync(user, CookieAuthenticationDefaults.AuthenticationType);
-
-            AuthenticationProperties properties = CreateProperties(user.UserName);
-            AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+            var ticket = AuthUtil.AuthUserWithToken(user, context.Request.Context.Authentication, userManager);
             context.Validated(ticket);
-            context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
-        private static AuthenticationProperties CreateProperties(string userName)
-        {
-            IDictionary<string, string> data = new Dictionary<string, string>
-            {
-                { "userName", userName }
-            };
-            return new AuthenticationProperties(data);
-        }
+        
 
         public Task GrantClientCredentials(OAuthGrantClientCredentialsContext context)
         {

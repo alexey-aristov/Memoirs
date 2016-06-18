@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Http;
 using Memoirs.Web2.Utils;
 using Microsoft.AspNet.Identity;
@@ -34,11 +35,22 @@ namespace Memoirs.Web2
             };
             app.UseOAuthBearerTokens(oAuthOptions);
             
-
+            
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
+                Provider = new CookieAuthenticationProvider()
+                {
+                    OnApplyRedirect = ctx =>
+                    {
+                        string apiPath = VirtualPathUtility.ToAbsolute("~/api/");
+                        if (!ctx.Request.Uri.LocalPath.StartsWith(apiPath))
+                        {
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        }
+                    }
+                }
                 //Provider = new CookieAuthenticationProvider
                 //{
                 //    // Enables the application to validate the security stamp when the user logs in.
