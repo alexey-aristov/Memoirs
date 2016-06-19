@@ -55,7 +55,7 @@
     @*-----------------temp--------------------------*@
     <script type="text/template" id="item-template">
 
-        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11">
+        <div class="col-md-11 col-lg-11 col-sm-11 col-xs-11" id="records-prev-item-<%-Id%>">
             <h4 class="list-group-item-heading records-prev-label">
                 <%- Label %>
                 <%- DateCreatedString %>
@@ -64,8 +64,8 @@
                 <%- Text %>
             </p>
             <% if(Editable){ %>
-            <input type="text" class="form-control records-prev-edit-label" placeholder="Best event!">
-            <textarea class="form-control records-prev-edit-text" placeholder="Event description"></textarea>
+                <input type="text" class="form-control records-prev-edit-label" placeholder="Best event!">
+                <textarea class="form-control records-prev-edit-text" placeholder="Event description"></textarea>
             <%}%>
         </div>
         <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
@@ -111,24 +111,24 @@
                 <%}%>
             </div>
         </div>
-            <div class="row">
-                <h5 class="list-group-item-heading records-prev-label">
-                    <%- Label %>
-                </h5>
-                <% if(Editable){ %>
-                <input type="text" class="form-control records-prev-edit-label" placeholder="Best event!">
-                <%}%>
+        <div class="row">
+            <h5 class="list-group-item-heading records-prev-label">
+                <%- Label %>
+            </h5>
+            <% if(Editable){ %>
+            <input type="text" class="form-control records-prev-edit-label" placeholder="Best event!">
+            <%}%>
 
 
 
-            </div>
-            
+        </div>
+
         <div class="row">
             <div class="list-group-item-text records-prev-text">
                 <%- Text %>
             </div>
             <% if(Editable){ %>
-                <textarea class="form-control records-prev-edit-text" placeholder="Event description"></textarea>
+            <textarea class="form-control records-prev-edit-text" placeholder="Event description"></textarea>
             <%}%>
         </div>
 

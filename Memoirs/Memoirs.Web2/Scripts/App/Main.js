@@ -312,7 +312,13 @@ $(document).ready(function () {
                 var view = new RecordView({
                     model: record
                 });
-                this.$('#prev_records').prepend(view.render().el);
+
+                var prevRecord = this.$('#records-prev-item-' + record.attributes.Id);
+                if (prevRecord.length == 0) {
+                    this.$('#prev_records').prepend(view.render().el);
+                } else {
+                    prevRecord.parent().replaceWith(view.render().el);
+                }
             }
         },
         addAll: function () {
