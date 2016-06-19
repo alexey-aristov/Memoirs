@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Linq;
 using Memoirs.Common.EntityFramework.Entities.Abstract;
 using Memoirs.Common.Identity;
@@ -11,17 +12,21 @@ namespace Memoirs.Common.EntityFramework
         public AppDataContext()
             : base("DataConnection")
         {
+            
         }
-
-        public new static AppDataContext Create()
-        {
-            return new AppDataContext();
-        }
+        
         public DbSet<RecordBase> Records { get; set; }
+        public DbSet<AppSetting> AppSettings { get; set; }
         public IQueryable<RecordBase> RecordsQuery
         {
             get { return Records; }
             set { Records = (DbSet<RecordBase>)value; } //not sure
+        }
+
+        public IQueryable<AppSetting> AppSettingsQuery
+        {
+            get { return AppSettings; }
+            set { AppSettings = (DbSet<AppSetting>)value; } //not sure too
         }
     }
 }

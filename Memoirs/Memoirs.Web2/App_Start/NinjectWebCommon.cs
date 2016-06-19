@@ -78,6 +78,7 @@ namespace Memoirs.Web2
             kernel.Bind<IUnitOfWork>().To<UnitOfWorkEf>().InRequestScope();
             kernel.Bind<DbContext>().To<AppDataContext>().InRequestScope();
             kernel.Bind<IUserStore<ApplicationUser>>().To<UserStore<ApplicationUser>>().InRequestScope();
+            kernel.Bind<IAppSettingsProvider>().To<AppSettingProvider>().InRequestScope();
 
             kernel.Bind<ApplicationSignInManager>().ToSelf().InRequestScope();
             kernel.Bind<ApplicationUserManager>().ToSelf().InRequestScope();
@@ -87,7 +88,7 @@ namespace Memoirs.Web2
             kernel.Bind<ILogger>().To<NLogLogger>().WithConstructorArgument("currentClassName", x => x.Request.ParentContext.Request.Service.FullName);
 
             kernel.BindHttpFilter<ErrorFilter>(FilterScope.Global);
-            //kernel.BindHttpFilter<AuthFilter>()
+            
         }
 
         

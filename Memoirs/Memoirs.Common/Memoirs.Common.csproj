@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiException.cs" />
+    <Compile Include="AppSettingProvider.cs" />
+    <Compile Include="EntityFramework\Entities\Abstract\AppSetting.cs" />
     <Compile Include="EntityFramework\Entities\Abstract\IEntity.cs" />
     <Compile Include="EntityFramework\Entities\Abstract\RecordBase.cs" />
     <Compile Include="EntityFramework\Entities\Enums\EmptyEnum.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="EntityFramework\ApplicationUser.cs" />
     <Compile Include="EntityFramework\GenericRepository.cs" />
     <Compile Include="EntityFramework\UnitOfWorkEf.cs" />
+    <Compile Include="IAppSettingsProvider.cs" />
     <Compile Include="IDataContext.cs" />
     <Compile Include="Identity\ApplicationSignInManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
@@ -83,6 +86,10 @@
     <Compile Include="Migrations\201605291947277_init.cs" />
     <Compile Include="Migrations\201605291947277_init.Designer.cs">
       <DependentUpon>201605291947277_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606191855530_addAppSettingsTable.cs" />
+    <Compile Include="Migrations\201606191855530_addAppSettingsTable.Designer.cs">
+      <DependentUpon>201606191855530_addAppSettingsTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,6 +103,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605291947277_init.resx">
       <DependentUpon>201605291947277_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606191855530_addAppSettingsTable.resx">
+      <DependentUpon>201606191855530_addAppSettingsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

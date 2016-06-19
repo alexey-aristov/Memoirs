@@ -8,6 +8,7 @@ namespace Memoirs.Common.EntityFramework
     {
         private readonly DbContext _dataContext;// = new DataContext ();
         private IGenericRepository<RecordBase> _postsRepository;
+        private IGenericRepository<AppSetting> _appSettingsRepository;
 
         private bool _disposed = false;
 
@@ -17,10 +18,9 @@ namespace Memoirs.Common.EntityFramework
 
         }
 
-        public IGenericRepository<RecordBase> RecordsRepository
-        {
-            get { return _postsRepository ?? (_postsRepository = new GenericRepository<RecordBase>(_dataContext)); }
-        }
+        public IGenericRepository<RecordBase> RecordsRepository => _postsRepository ?? (_postsRepository = new GenericRepository<RecordBase>(_dataContext));
+
+        public IGenericRepository<AppSetting> AppSettingsRepository => _appSettingsRepository ?? (_appSettingsRepository = new GenericRepository<AppSetting>(_dataContext));
 
 
         public void Save()

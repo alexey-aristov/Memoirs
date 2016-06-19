@@ -10,5 +10,6 @@ namespace Memoirs.Common
     public interface IDataContext
     {
         IQueryable<RecordBase> RecordsQuery { get; set; }
+        IQueryable<AppSetting> AppSettingsQuery { get; set; }
     }
 }
