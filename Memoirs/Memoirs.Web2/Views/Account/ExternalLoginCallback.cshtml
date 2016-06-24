@@ -1,0 +1,60 @@
+﻿@model Memoirs.Web2.Models.Account.ExternalLoginModel
+
+@{
+    ViewBag.Title = "title";
+}
+
+<h2>Confirm Login</h2>
+<ul>
+    @foreach (var error in Model.ValidationErrors)
+    {
+        <li>
+            @error
+        </li>
+    }
+</ul>
+<form action="/Account/ExternalLoginCallback" class="form-horizontal" method="post" role="form">
+    <h4>Register</h4>
+    <hr />
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Login</label>
+        <div class="col-md-10">
+            <input class="form-control" name="Login" type="text" value="@Model.Login">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Email</label>
+        <div class="col-md-10">
+            <input class="form-control" name="Email" type="text" value="@Model.Email" id="register_email_input">
+        </div>
+    </div>
+    @if (Model.IsPasswordSet)
+    {
+        <div class="form-group">
+            <label class="col-md-2 control-label">Password</label>
+            <div class="col-md-10">
+                <input class="form-control" name="Password" type="password" id="register_password_input">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Password Confirmation</label>
+            <div class="col-md-10">
+                <input class="form-control" name="PasswordConfirm" type="password" id="register_password_confirm_input">
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input name="IsPasswordSet" type="hidden" value="@Model.IsPasswordSet.ToString()">
+            <input type="submit" value="Register now!" class="btn btn-default" id="register_submit_btn" />
+        </div>
+    </div>
+    <div class="form-group">
+        <ul id="register_errors_list"></ul>
+    </div>
+</form>
+
+@section scripts{
+
+}

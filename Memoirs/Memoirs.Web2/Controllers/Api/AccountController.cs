@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using Memoirs.Common;
 using Memoirs.Common.EntityFramework;
 using Memoirs.Common.Identity;
-using Memoirs.Web2.Models.Account;
 
 
 namespace Memoirs.Web2.Controllers.Api
