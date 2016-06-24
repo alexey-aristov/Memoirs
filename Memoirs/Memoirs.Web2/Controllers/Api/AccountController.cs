@@ -3,6 +3,7 @@ using System.Web.Http;
 using Memoirs.Common;
 using Memoirs.Common.EntityFramework;
 using Memoirs.Common.Identity;
+using Memoirs.Web2.Models.Api;
 
 
 namespace Memoirs.Web2.Controllers.Api
