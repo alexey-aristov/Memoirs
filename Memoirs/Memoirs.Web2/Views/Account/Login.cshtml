@@ -51,6 +51,10 @@
     #register_errors_list {
         color: red;
     }
+    .login_external_icon {
+        height: 35px;
+        width: 35px;
+    }
 </style>
 @*<video autoplay="autoplay" id="video-background" preload="auto" loop>
         <source src="/home/video" type="video/mp4">
@@ -85,7 +89,9 @@
                 @Html.ActionLink("Forgot your password?", "ForgotPassword")
             </p>*@
     </form>
-
+    <form action="/Account/ExternalLogin" class="form-horizontal" method="post" role="form">
+        <input class="login_external_icon" type="image" value="Google" src="@Url.Content("~/Content/Icons/ExternalLogin/Google.jpeg")" name="provider" alt="Submit">/>
+    </form>
 </div>
 <div id="register_form">
     <form action="/Account/Register" class="form-horizontal" method="post" role="form">
@@ -128,9 +134,10 @@
 
     </form>
     <form action="/Account/ExternalLogin" class="form-horizontal" method="post" role="form">
-        <button type="submit" value="Google" name="provider">Google</button>
+        <input class="login_external_icon" type="image" value="Google" src="@Url.Content("~/Content/Icons/ExternalLogin/Google.jpeg")" name="provider" alt="Submit">/>
     </form>
 </div>
+
 @*<div class="col-md-4">
         <section id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel {ReturnUrl = ViewBag.ReturnUrl})
