@@ -81,6 +81,12 @@ namespace Memoirs.Android.App
 			// aapt resource value: 0x7f050005
 			public const int login_page_register_button = 2131034117;
 			
+			// aapt resource value: 0x7f050007
+			public const int main_records_list = 2131034119;
+			
+			// aapt resource value: 0x7f050008
+			public const int records_listview = 2131034120;
+			
 			static Id()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -99,6 +105,9 @@ namespace Memoirs.Android.App
 			
 			// aapt resource value: 0x7f030001
 			public const int Main = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int RecordsListView = 2130903042;
 			
 			static Layout()
 			{
