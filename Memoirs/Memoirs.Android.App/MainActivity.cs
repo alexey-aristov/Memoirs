@@ -12,7 +12,7 @@ using Ninject;
 
 namespace Memoirs.Android.App
 {
-    [Activity(Label = "Memoirs.Android.App", Icon = "@drawable/icon")]
+    [Activity]
     public class MainActivity : Activity
     {
         private ListView _recordsListView;

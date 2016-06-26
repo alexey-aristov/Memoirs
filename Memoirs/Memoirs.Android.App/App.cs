@@ -13,7 +13,7 @@ using Ninject;
 
 namespace Memoirs.Android.App
 {
-    [Application]
+    [Application(Label = "Memoirs", Icon = "@drawable/icon")]
     public class App:Application
     {
         public static IKernel Container { get; set; }

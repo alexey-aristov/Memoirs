@@ -7,7 +7,7 @@ using Ninject;
 
 namespace Memoirs.Android.App.Login
 {
-    [Activity(Label = "LoginActivity", MainLauncher = true)]
+    [Activity(MainLauncher = true)]
     public class LoginActivity : Activity
     {
         private ILoginProvider _loginProvider;
@@ -19,7 +19,7 @@ namespace Memoirs.Android.App.Login
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Login);
-
+            
             _loginProvider = App.Container.Get<ILoginProvider>();
 
             _loginButton = FindViewById<Button>(Resource.Id.login_page_login_button);
