@@ -1,21 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+using System.Threading.Tasks;
 using Memoirs.Android.App.Account;
 
 namespace Memoirs.Android.App.Login
 {
     public interface ILoginProvider
     {
-        User Login(string login, string password);
+        LoginResult Login(string login, string password);
+        Task<LoginResult> LoginAsync(string login, string password);
         User GetCurrentUser();
         void Logout();
     }
