@@ -19,7 +19,7 @@ namespace Memoirs.Android.App
     {
         public override void Load()
         {
-            Kernel.Bind<ILoginProvider>().To<LoginProviderMock>();
+            Kernel.Bind<ILoginProvider>().To<WebApiLoginProvider>();
             Kernel.Bind<IRecordsProvider>().To<RecordsProviderMock>();
         }
     }

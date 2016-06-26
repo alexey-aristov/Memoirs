@@ -12,7 +12,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/login_page_login_edittext" />
+        android:id="@+id/login_page_login_edittext"
+        android:text="admin" />
     <TextView
         android:text="Passsword"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -23,7 +24,8 @@
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/login_page_password_edittext" />
+        android:id="@+id/login_page_password_edittext"
+        android:text="admin" />
     <Button
         android:text="Login"
         android:layout_width="match_parent"
@@ -34,4 +36,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/login_page_register_button" />
+    <Button
+        android:text="Register Later"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_page_register_later_button" />
 </LinearLayout>
