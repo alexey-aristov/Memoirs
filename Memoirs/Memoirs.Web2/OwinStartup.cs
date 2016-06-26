@@ -20,7 +20,7 @@ namespace Memoirs.Web2
         {
             var oAuthOptions = new OAuthAuthorizationServerOptions
             {
-                TokenEndpointPath = new PathString("/api/Account/Login"),
+                TokenEndpointPath = new PathString("/api/Account/LoginUrlEncoded"),
                 Provider = new AppOAuthProvider(),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
@@ -45,7 +45,8 @@ namespace Memoirs.Web2
                             ctx.Response.Redirect(ctx.RedirectUri);
                         }
                     }
-                }
+                },
+                
                 //Provider = new CookieAuthenticationProvider
                 //{
                 //    // Enables the application to validate the security stamp when the user logs in.

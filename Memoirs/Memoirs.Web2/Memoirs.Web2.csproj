@@ -225,6 +225,7 @@
     </Compile>
     <Compile Include="Models\Account\ExternalLoginModel.cs" />
     <Compile Include="Models\Account\LoginModel.cs" />
+    <Compile Include="Models\Api\BearerLoginModel.cs" />
     <Compile Include="Models\Api\RegisterModel.cs" />
     <Compile Include="Models\Api\RegisterResponceModel.cs" />
     <Compile Include="Models\RecordModel.cs" />
