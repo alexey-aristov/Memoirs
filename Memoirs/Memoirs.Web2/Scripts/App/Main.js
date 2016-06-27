@@ -43,7 +43,7 @@ $(document).ready(function () {
         },
         updateModel: function (record) {
             record.attributes.DateCreatedDate = this.model.attributes.DateCreatedDate;
-            this.model.url = function() {
+            this.model.url = function () {
                 return record.url();
             };
             this.model.set(record.attributes);
@@ -260,7 +260,7 @@ $(document).ready(function () {
             this.$('.records-prev-edit-undo').hide();
             this.$('.records-prev-edit-btn').show();
         },
-        dispose: function () {}
+        dispose: function () { }
     });
 
     var App = Backbone.View.extend({
@@ -281,13 +281,18 @@ $(document).ready(function () {
             this.listenTo(this.recordsList, 'all', this.render);
             this.listenTo(this.recordsList, 'sync', this.recodsListSync);
 
-            this.recordsList.fetch({ data: $.param({ monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear() }) });
+            this.recordsList.fetch({
+                data: $.param({
+                    monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear(),
+                    gettype: 'From'
+                })
+            });
             if (this.recordsAsTable) {
                 this.$el.append(this.tableView.render().el);
             }
         },
-        render: function() {
-            
+        render: function () {
+
         },
         addOne: function (record) {
             if (record.Id == 0) {
@@ -296,7 +301,7 @@ $(document).ready(function () {
             this.addRecordToView(record);
 
         },
-        addRecordToView: function(record) {
+        addRecordToView: function (record) {
             if (this.recordsAsTable) {
                 if (record.attributes.DateCreatedDate == undefined) {
                     if (record.attributes.DateCreatedString == undefined || record.attributes.DateCreatedString == '') {
@@ -356,7 +361,12 @@ $(document).ready(function () {
             this.tableView.undelegateEvents();
             this.tableView.dispose();
             this.tableView.remove();
-            this.recordsList.fetch({ data: $.param({ monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear() }) });
+            this.recordsList.fetch({
+                data: $.param({
+                    monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear(),
+                    gettype: 'Exact'
+                })
+            });
 
             if (this.recordsAsTable) {
                 this.tableView = new RecordsTableView();
@@ -364,7 +374,7 @@ $(document).ready(function () {
             }
         },
         recodsListSync: function (model, options) {
-            if(model.models==undefined) //filter event on initial sync
+            if (model.models == undefined) //filter event on initial sync
                 this.addRecordToView(model);
         }
     });

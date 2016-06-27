@@ -9,6 +9,7 @@ using Memoirs.Common.EntityFramework;
 using Memoirs.Common.EntityFramework.Entities;
 using Memoirs.Common.Identity;
 using Memoirs.Web2.Models;
+using Memoirs.Web2.Utils;
 using Microsoft.AspNet.Identity;
 
 namespace Memoirs.Web2.Controllers.Api
@@ -60,7 +61,7 @@ namespace Memoirs.Web2.Controllers.Api
         [HttpGet]
         public RecordModel Get(int id)
         {
-            _logger.Debug("get {0}",id.ToString());
+            _logger.Debug("get {0}", id.ToString());
             var model =
                 new RecordModel(_userManager.FindById(User.Identity.GetUserId()).Records.FirstOrDefault(a => a.Id == id));
 
@@ -68,27 +69,55 @@ namespace Memoirs.Web2.Controllers.Api
             model.Editable = IsEditable(model.DateCreated);
             return model;
         }
+
         [HttpGet]
-        public IEnumerable<RecordModel> Get(string monthyear)
+        public IEnumerable<RecordModel> Get(string monthyear, RecordsGetType gettype)
         {
-            DateTime dateTime = DateTime.Parse(monthyear);
-            var records = _userManager.FindById(User.Identity.GetUserId()).Records
-                .Where(a => a.DateCreated.Month == dateTime.Month && dateTime.Year == a.DateCreated.Year)
-                .Select(a => new RecordModel()
-                {
-                    Text = a.Text,
-                    DateCreated = a.DateCreated,
-                    Description = a.Description,
-                    Id = a.Id,
-                    IsDeleted = a.IsDeleted,
-                    Label = a.Label
-                }).OrderBy(a => a.DateCreated).ToList();
-            records.ForEach(a =>
+            DateTime dateTime;
+            List<RecordModel> records;
+            switch (gettype)
             {
-                a.DateCreatedString = a.DateCreated.ToString(_dateTimeFormat);
-                a.Editable = IsEditable(a.DateCreated);
-            });
-            return records;
+                case RecordsGetType.Exact:
+                    dateTime = DateTime.Parse(monthyear);
+                    records = _userManager.FindById(User.Identity.GetUserId()).Records
+                        .Where(a => a.DateCreated.Month == dateTime.Month && dateTime.Year == a.DateCreated.Year)
+                        .Select(a => new RecordModel()
+                        {
+                            Text = a.Text,
+                            DateCreated = a.DateCreated,
+                            Description = a.Description,
+                            Id = a.Id,
+                            IsDeleted = a.IsDeleted,
+                            Label = a.Label
+                        }).OrderBy(a => a.DateCreated).ToList();
+                    records.ForEach(a =>
+                    {
+                        a.DateCreatedString = a.DateCreated.ToString(_dateTimeFormat);
+                        a.Editable = IsEditable(a.DateCreated);
+                    });
+                    return records;
+                case RecordsGetType.From:
+                    dateTime = DateTime.Parse(monthyear);
+                    records = _userManager.FindById(User.Identity.GetUserId()).Records
+                        .Where(a => a.DateCreated.Month >= dateTime.Month && dateTime.Year >= a.DateCreated.Year)
+                        .Select(a => new RecordModel()
+                        {
+                            Text = a.Text,
+                            DateCreated = a.DateCreated,
+                            Description = a.Description,
+                            Id = a.Id,
+                            IsDeleted = a.IsDeleted,
+                            Label = a.Label
+                        }).OrderBy(a => a.DateCreated).ToList();
+                    records.ForEach(a =>
+                    {
+                        a.DateCreatedString = a.DateCreated.ToString(_dateTimeFormat);
+                        a.Editable = IsEditable(a.DateCreated);
+                    });
+                    return records;
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         // POST: api/Records
