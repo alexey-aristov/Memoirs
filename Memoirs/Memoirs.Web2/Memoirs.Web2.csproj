@@ -233,7 +233,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AppOAuthProvider.cs" />
     <Compile Include="Utils\AuthUtil.cs" />
-    <Compile Include="Utils\RecordsGetType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Icons\ExternalLogin\Google.jpeg" />
@@ -313,6 +312,10 @@
     <ProjectReference Include="..\Memoirs.Logging\Memoirs.Logging.csproj">
       <Project>{86BA83C0-E2F0-4487-92A8-A385FAE952BC}</Project>
       <Name>Memoirs.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Memoirs.Shared\Memoirs.Shared.csproj">
+      <Project>{356d600a-85ed-489e-abba-b036f01e0a5f}</Project>
+      <Name>Memoirs.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

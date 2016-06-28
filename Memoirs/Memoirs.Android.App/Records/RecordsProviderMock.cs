@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Memoirs.Shared;
 
 namespace Memoirs.Android.App.Records
 {
@@ -47,6 +48,26 @@ namespace Memoirs.Android.App.Records
                 }
 
             };
+        }
+
+        public Record Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Record> GetFiltered(DateTime monthyear, RecordsGetType getType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(int id, Record record)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

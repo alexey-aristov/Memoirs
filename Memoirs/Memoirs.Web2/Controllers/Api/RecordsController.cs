@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using Memoirs.Common;
 using Memoirs.Common.EntityFramework;
 using Memoirs.Common.EntityFramework.Entities;
 using Memoirs.Common.Identity;
+using Memoirs.Shared;
 using Memoirs.Web2.Models;
-using Memoirs.Web2.Utils;
 using Microsoft.AspNet.Identity;
 
 namespace Memoirs.Web2.Controllers.Api

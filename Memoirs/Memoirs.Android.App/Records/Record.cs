@@ -11,7 +11,7 @@ namespace Memoirs.Android.App.Records
         public DateTime DateCreated { get; set; }
         public override string ToString()
         {
-            return $@"{Label}:{Text}:{DateCreated.ToString("yy-mm-dd")}";
+            return $@"{Label}:{Text}:{DateCreated.ToString("yy-MM-dd")}";
         }
     }
 }

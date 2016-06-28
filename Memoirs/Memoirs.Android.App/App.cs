@@ -2,6 +2,7 @@ using System;
 using Android.App;
 using Android.Content;
 using Android.Runtime;
+using Memoirs.Android.App.Account;
 using Ninject;
 
 namespace Memoirs.Android.App
@@ -10,7 +11,8 @@ namespace Memoirs.Android.App
     public class App:Application
     {
         public static IKernel Container { get; set; }
-        public static ContextWrapper Context { get; set; }
+        public static ContextWrapper ContextWrapper { get; set; }
+        public static User CurrentUser { get; set; }
 
         public App(IntPtr h, JniHandleOwnership jho) : base(h, jho)
         {
@@ -20,7 +22,7 @@ namespace Memoirs.Android.App
         {
             var kernel = new StandardKernel(new MemoirsNinjectModule());
             Container = kernel;
-            Context = this;
+            ContextWrapper = this;
             base.OnCreate();
         }
     }
