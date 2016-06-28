@@ -34,12 +34,6 @@ namespace Memoirs.Android.App.Login
             return Task.FromResult(Login(login, password));
         }
 
-        public User GetCurrentUser()
-        {
-            return _loggedUser;
-        }
-
-
         public void Logout()
         {
             _loggedUser = null;

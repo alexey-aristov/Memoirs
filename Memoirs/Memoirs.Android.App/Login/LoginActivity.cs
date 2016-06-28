@@ -37,7 +37,6 @@ namespace Memoirs.Android.App.Login
         private void _registerLaterButton_Click(object sender, EventArgs e)
         {
             var alert = new AlertDialog.Builder(this).SetMessage("test").SetPositiveButton("yes?", (o, args) => { });
-            //alert.SetView(LayoutInflater.Inflate(Resource.Layout.Modal, null));
             alert.Create().Show();
         }
 

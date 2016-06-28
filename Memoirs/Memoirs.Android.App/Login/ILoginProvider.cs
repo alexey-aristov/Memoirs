@@ -7,7 +7,6 @@ namespace Memoirs.Android.App.Login
     {
         LoginResult Login(string login, string password);
         Task<LoginResult> LoginAsync(string login, string password);
-        User GetCurrentUser();
         void Logout();
     }
 }

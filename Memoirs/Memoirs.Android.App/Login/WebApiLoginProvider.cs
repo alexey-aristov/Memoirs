@@ -31,7 +31,7 @@ namespace Memoirs.Android.App.Login
         {
             try
             {
-                var connectivityManager = (ConnectivityManager)App.Context.GetSystemService(Context.ConnectivityService);
+                var connectivityManager = (ConnectivityManager)App.ContextWrapper.GetSystemService(Context.ConnectivityService);
                 NetworkInfo activeConnection = connectivityManager.ActiveNetworkInfo;
                 bool isOnline = (activeConnection != null) && activeConnection.IsConnected;
 
@@ -58,25 +58,46 @@ namespace Memoirs.Android.App.Login
                     new KeyValuePair<string, string>("password", password),
                 });
                     HttpResponseMessage response = client.PostAsync(apiUrl, content).Result;
-                    LoginResponseModel jsonResponse = JsonConvert.DeserializeObject<LoginResponseModel>(response.Content.ReadAsStringAsync().Result);
-
-                    return new LoginResult()
+                    if (response.IsSuccessStatusCode)
                     {
-                        Login = jsonResponse.UserName
-                    };
+                        LoginResponseModel jsonResponse = JsonConvert.DeserializeObject<LoginResponseModel>(response.Content.ReadAsStringAsync().Result);
+
+                        var token = $"{jsonResponse.TokenType} {jsonResponse.AccessToken}";
+                        App.CurrentUser = new User()
+                        {
+                            Login = jsonResponse.UserName,
+                            Token = token
+                        };
+                        return new LoginResult()
+                        {
+                            Token = token,
+                            Login = jsonResponse.UserName
+                        };
+                    }
+                    else
+                    {
+                        return new LoginResult()
+                        {
+                            Errors = new List<string>()
+                            {
+                                "Login failed."
+                            }
+                        };
+                    }
+                    
                 }
             }
             catch (Exception ex)
             {
-
-                throw;
+                App.CurrentUser = null;
+                return new LoginResult()
+                {
+                    Errors = new List<string>()
+                    {
+                        "Login failed."
+                    }
+                };
             }
-        }
-
-
-        public User GetCurrentUser()
-        {
-            return new User();
         }
 
         public void Logout()
