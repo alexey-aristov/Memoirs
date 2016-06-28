@@ -29,7 +29,6 @@ namespace Memoirs.Android.App
             SetContentView(Resource.Layout.Main);
             var _loginProvider = App.Container.Get<ILoginProvider>();
             var _recordsProvider = App.Container.Get<IRecordsProvider>();
-            _user = _loginProvider.GetCurrentUser();
             _recordsListView = FindViewById<ListView>(Resource.Id.main_records_list);
             
             HttpStatusCode st;
