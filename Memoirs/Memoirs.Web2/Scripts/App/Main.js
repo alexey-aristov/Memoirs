@@ -35,7 +35,7 @@ $(document).ready(function () {
     var RecordForTableView = Backbone.View.extend({
         isEditingOn: false,
         tagName: 'div',
-        template: _.template($('#template_record_item').html()),
+        template: _.template(Templates.RecordItemForTable),
         itemId: '',
         render: function () {
             $(this.el).html(this.template(this.model.attributes));
@@ -119,8 +119,8 @@ $(document).ready(function () {
         }
     });
     var RecordsTableView = Backbone.View.extend({
-        template: _.template($('#template_record_items_table').html()),
-        recordTemplate: _.template($('#template_record_item').html()),
+        template: _.template(Templates.RecordsTable),
+        recordTemplate: _.template(Templates.RecordItemForTable),
         initialize: function (options) {
             var firstDayOffset = new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), 1).getDay();
             //TODO possible memory leaks
@@ -190,7 +190,7 @@ $(document).ready(function () {
         isEditingOn: false,
         tagName: 'div',
         className: 'list-group-item row',
-        template: _.template($('#item-template').html()),
+        template: _.template(Templates.RecordItemForList),
         events: {
             'click .records-prev-edit-btn': 'edit',
             'click .records-prev-edit-confirm': 'confirmEdit',

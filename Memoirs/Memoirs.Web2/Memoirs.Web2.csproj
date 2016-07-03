@@ -272,6 +272,7 @@
     <Content Include="node_modules\underscore\underscore-min.map" />
     <Content Include="Scripts\App\Login.js" />
     <Content Include="Scripts\App\Main.js" />
+    <Content Include="Scripts\App\Templates.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
