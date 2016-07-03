@@ -294,7 +294,8 @@ $(document).ready(function () {
         el: $('#app'),
         events: {
             'keypress #new_record_label': 'createOnEnter',
-            'keypress #new_record_text': 'createOnEnter'
+            'keypress #new_record_text': 'createOnEnter',
+            'click #new_record_save_btn': 'saveRecord'
         },
         tableView: new RecordsTableView(),
         initialize: function (options) {
@@ -354,8 +355,7 @@ $(document).ready(function () {
         addAll: function () {
             this.recordsList.each(this.addOne, this);
         },
-        createOnEnter: function (e) {
-            if (e.keyCode != 13) return;
+        saveRecord: function() {
             if (!this.newRecordLabel.val()) return;
             var newRecord = {
                 Label: this.newRecordLabel.val(),
@@ -379,6 +379,10 @@ $(document).ready(function () {
             );
             this.newRecordLabel.val('');
             this.newRecordText.val('');
+        },
+        createOnEnter: function (e) {
+            if (e.keyCode != 13) return;
+            this.saveRecord();
         },
         reinit: function (options) {
             this.recordsAsTable = options.recordsAsTable;
