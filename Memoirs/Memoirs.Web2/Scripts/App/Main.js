@@ -6,6 +6,10 @@
     var used = firstOfMonth.getDay() + lastOfMonth.getDate();
     return Math.ceil(used / 7);
 }
+DateLiterals = {
+        Month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        MonthShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+};
 $(document).ready(function () {
     var CurrentPageDateMonthYear = new Date();
 
@@ -120,7 +124,6 @@ $(document).ready(function () {
     });
     var RecordsTableView = Backbone.View.extend({
         template: _.template(Templates.RecordsTable),
-        recordTemplate: _.template(Templates.RecordItemForTable),
         initialize: function (options) {
             var firstDayOffset = new Date(CurrentPageDateMonthYear.getFullYear(), CurrentPageDateMonthYear.getMonth(), 1).getDay();
             //TODO possible memory leaks
@@ -151,7 +154,11 @@ $(document).ready(function () {
         tableViews: { trs: [] },
         table: { trs: [] },
         render: function () {
-            $(this.el).html(this.template(this.tableViews));
+            $(this.el).html(this.template({
+                trs: this.tableViews.trs,
+                month: DateLiterals.Month[CurrentPageDateMonthYear.getMonth()],
+                year:CurrentPageDateMonthYear.getFullYear()
+            }));
             var self = this;
             _.each(this.tableViews.trs, function (tds) {
                 _.each(tds.tds, function (td) {
@@ -184,7 +191,25 @@ $(document).ready(function () {
             this.table = { trs: [] };
             this.undelegateEvents();
             this.remove();
-        }
+        },
+        events: {
+            'click #records_table_prev_month': 'click_prevMonth',
+            'click #records_table_now_month': 'click_nowMonth',
+            'click #records_table_next_month': 'click_nextMonth'
+        },
+        click_prevMonth: function () {
+            var newDate = CurrentPageDateMonthYear;
+            newDate.setMonth(-1 + CurrentPageDateMonthYear.getMonth());
+            window.location.href = window.location.origin + '/#table/' + (newDate.getMonth()+1) + '/'+newDate.getFullYear();
+        },
+    click_nowMonth: function () {
+        window.location.href = window.location.origin + '/#table';
+    },
+    click_nextMonth: function () {
+        var newDate = CurrentPageDateMonthYear;
+        newDate.setMonth(1 + CurrentPageDateMonthYear.getMonth());
+        window.location.href = window.location.origin + '/#table/' + (newDate.getMonth()+1) + '/'+newDate.getFullYear();
+    }
     });
     var RecordView = Backbone.View.extend({
         isEditingOn: false,
@@ -383,7 +408,8 @@ $(document).ready(function () {
         routes: {
             '': 'index',
             'index': 'index',
-            'table': 'table'
+            'table': 'table',
+            'table/:month/:year': 'table'
         },
         index: function () {
             if (application == undefined) {
@@ -396,7 +422,13 @@ $(document).ready(function () {
                 });
             }
         },
-        table: function () {
+        table: function (month, year) {
+            if (month != undefined && year != undefined) {
+                CurrentPageDateMonthYear.setMonth(month - 1);
+                CurrentPageDateMonthYear.setYear(year);
+            } else {
+                CurrentPageDateMonthYear = new Date();
+            }
             if (application == undefined) {
                 application = new App({
                     recordsAsTable: true

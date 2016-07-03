@@ -22,12 +22,22 @@
         '</div>',
 
     RecordsTable:
+    '<div class="row">' +
+        '<div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">' +
+            '<button id="records_table_prev_month">prev</button>' +
+            '<button id="records_table_now_month">now</button>' +
+            '<button id="records_table_next_month">next</button>' +
+        '</div>' +
+        '<h4 class="col-md-5 col-lg-5 col-sm-5 col-xs-5">' +
+            '<%-month%>,<%-year%>' +
+        '</h4>' +
+    '</div>' +
     '<table class="table table-bordered">' +
         '<% _.each(trs,function(tr){%>' +
             '<tr>' +
-            '<% _.each(tr.tds,function(td){%>' +
-                '<td id="<%-td.itemId%>" class="records_table_day<%if(!td.isCurrentMonth){%> records_table_day_another_month<%}%>"/>' +
-            '<%});%>' +
+                '<% _.each(tr.tds,function(td){%>' +
+                    '<td id="<%-td.itemId%>" class="records_table_day<%if(!td.isCurrentMonth){%> records_table_day_another_month<%}%>"/>' +
+                '<%});%>' +
             '</tr>' +
         '<%});%>' +
     '</table>',
