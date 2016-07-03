@@ -14,7 +14,10 @@ namespace Memoirs.Web2
                 "~/node_modules/underscore/underscore.js",
                 "~/node_modules/backbone/backbone.js"
                 ));
-            bundles.Add(new ScriptBundle("~/bundles/app").Include("~/Scripts/App/Templates.js", "~/Scripts/App/Main.js"));
+            bundles.Add(new ScriptBundle("~/bundles/app")
+                .Include("~/Scripts/App/Templates.js",
+                "~/Scripts/Util/Modal.js",
+                "~/Scripts/App/Main.js"));
             bundles.Add(new ScriptBundle("~/bundles/login").Include("~/Scripts/App/Login.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're

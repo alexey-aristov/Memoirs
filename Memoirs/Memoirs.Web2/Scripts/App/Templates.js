@@ -58,5 +58,9 @@
         '<% if(Editable){ %>' +
             '<textarea class="form-control records-prev-edit-text" placeholder="Event description"></textarea>' +
         '<%}%>' +
-    '</div>'
+    '</div>',
+
+    ModalView:
+        '<div class="modal-view">' +
+        '</div>'
 }
