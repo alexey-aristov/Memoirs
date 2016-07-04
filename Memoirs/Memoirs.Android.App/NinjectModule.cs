@@ -1,16 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Memoirs.Android.App.Login;
-using Memoirs.Android.App.Records;
+using Memoirs.Android.Common;
+using Memoirs.Android.Common.Login;
+using Memoirs.Android.Common.Records;
 using Ninject.Modules;
 
 namespace Memoirs.Android.App
@@ -20,7 +10,9 @@ namespace Memoirs.Android.App
         public override void Load()
         {
             Kernel.Bind<ILoginProvider>().To<WebApiLoginProvider>();
-            Kernel.Bind<IRecordsProvider>().To<RecordsProviderMock>();
+            Kernel.Bind<IRecordsProvider>().To<WebApiRecordsProvider>();
+            Kernel.Bind<IUserManager>().To<UserManager>().InSingletonScope();
+            Kernel.Bind<IConnectionChecker>().To<AndroidConnectionChecker>();
         }
     }
 }

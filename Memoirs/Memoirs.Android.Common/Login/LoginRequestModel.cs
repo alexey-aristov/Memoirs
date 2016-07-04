@@ -1,4 +1,4 @@
-namespace Memoirs.Android.App.Login
+namespace Memoirs.Android.Common.Login
 {
     public class LoginRequestModel
     {

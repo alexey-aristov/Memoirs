@@ -1,4 +1,4 @@
-namespace Memoirs.Android.App.Account
+namespace Memoirs.Android.Common.Login
 {
     public class User
     {

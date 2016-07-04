@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
-using Memoirs.Android.App.Account;
 
-namespace Memoirs.Android.App.Login
+namespace Memoirs.Android.Common.Login
 {
     public interface ILoginProvider
     {

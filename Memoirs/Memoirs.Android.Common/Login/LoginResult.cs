@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Memoirs.Android.App.Login
+namespace Memoirs.Android.Common.Login
 {
     public class LoginResult
     {

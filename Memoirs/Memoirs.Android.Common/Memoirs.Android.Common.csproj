@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{356D600A-85ED-489E-ABBA-B036F01E0A5F}</ProjectGuid>
+    <ProjectGuid>{613269F7-5706-4E66-BB27-BBDA113B65CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Memoirs.Shared</RootNamespace>
-    <AssemblyName>Memoirs.Shared</AssemblyName>
+    <RootNamespace>Memoirs.Android.Common</RootNamespace>
+    <AssemblyName>Memoirs.Android.Common</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,11 +34,43 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Compile Include="Dependencies.cs" />
+    <Compile Include="IConnectionChecker.cs" />
+    <Compile Include="Login\IUserManager.cs" />
+    <Compile Include="Login\ExpiresInSerializer.cs" />
+    <Compile Include="Login\ILoginProvider.cs" />
+    <Compile Include="Login\LoginProviderMock.cs" />
+    <Compile Include="Login\LoginRequestModel.cs" />
+    <Compile Include="Login\LoginResponseModel.cs" />
+    <Compile Include="Login\LoginResult.cs" />
+    <Compile Include="Login\User.cs" />
+    <Compile Include="Login\UserManager.cs" />
+    <Compile Include="Login\WebApiLoginProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Records\IRecordsprovider.cs" />
+    <Compile Include="Records\Record.cs" />
+    <Compile Include="Records\RecordsProviderMock.cs" />
+    <Compile Include="Records\WebApiRecordsProvider.cs" />
+    <Compile Include="WebApiCaller.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecordsGetType.cs" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.Ninject.3.3.1\lib\portable-net4+sl5+wp8+win8+wpa81+monotouch+monoandroid+Xamarin.iOS\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Memoirs.Shared\Memoirs.Shared.csproj">
+      <Project>{356d600a-85ed-489e-abba-b036f01e0a5f}</Project>
+      <Name>Memoirs.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

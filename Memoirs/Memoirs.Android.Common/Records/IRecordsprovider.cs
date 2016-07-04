@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using Memoirs.Shared;
 
-namespace Memoirs.Android.App.Records
+namespace Memoirs.Android.Common.Records
 {
-    interface IRecordsProvider
+    public interface IRecordsProvider
     {
         List<Record> GetRecords();
         Record Get(int id);

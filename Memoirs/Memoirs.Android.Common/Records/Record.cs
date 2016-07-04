@@ -1,5 +1,6 @@
 using System;
-namespace Memoirs.Android.App.Records
+
+namespace Memoirs.Android.Common.Records
 {
     public class Record
     {

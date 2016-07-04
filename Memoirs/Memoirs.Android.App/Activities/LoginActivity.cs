@@ -4,6 +4,8 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
+using Memoirs.Android.Common;
+using Memoirs.Android.Common.Login;
 using Ninject;
 
 namespace Memoirs.Android.App.Login
@@ -23,7 +25,7 @@ namespace Memoirs.Android.App.Login
 
             SetContentView(Resource.Layout.Login);
 
-            _loginProvider = App.Container.Get<ILoginProvider>();
+            _loginProvider = Dependencies.Container.Get<ILoginProvider>();
 
             _loginButton = FindViewById<Button>(Resource.Id.login_page_login_button);
             _loginEditText = FindViewById<EditText>(Resource.Id.login_page_login_edittext);

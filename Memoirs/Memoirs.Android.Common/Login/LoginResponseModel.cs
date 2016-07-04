@@ -1,9 +1,7 @@
 using System;
-
 using Newtonsoft.Json;
-using RestSharp;
 
-namespace Memoirs.Android.App.Login
+namespace Memoirs.Android.Common.Login
 {
     public class LoginResponseModel
     {
