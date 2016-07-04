@@ -1,15 +1,13 @@
-
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using Memoirs.Android.App.Login;
 using Newtonsoft.Json;
 using RestSharp.Extensions.MonoHttp;
+using System.Collections.Specialized;
+using System.Linq;
 
-namespace Memoirs.Android.App
+namespace Memoirs.Android.Common
 {
     public static class WebApiCaller
     {
@@ -44,14 +42,13 @@ namespace Memoirs.Android.App
             {
                 client.BaseAddress = new Uri(url);
                 client.Timeout = Timeout;
-
-                Uri uri = new Uri(url);
+                
                 if (parameters!=null)
                 {
-                    foreach (var parameter in parameters)
-                    {
-                        uri.AddOrUpdateParameter(parameter.Key, parameter.Value);
-                    }
+                    FormUrlEncodedContent param =
+                   new FormUrlEncodedContent(parameters.Select(a => new KeyValuePair<string, string>(a.Key, a.Value)));
+                    
+                    url += param.ToString();
                 }
                 
                 if (!string.IsNullOrEmpty(authtoken))
@@ -59,7 +56,7 @@ namespace Memoirs.Android.App
                     client.DefaultRequestHeaders.Add("Authorization", authtoken);
                 }
                 
-                    HttpResponseMessage response = client.GetAsync(uri.AbsoluteUri).Result;
+                    HttpResponseMessage response = client.GetAsync(url).Result;
                 
 
                 statusCode = response.StatusCode;
@@ -75,22 +72,23 @@ namespace Memoirs.Android.App
         /// <param name="paramName">Name of the parameter to add.</param>
         /// <param name="paramValue">Value for the parameter to add.</param>
         /// <returns>Url with added parameter.</returns>
-        public static Uri AddOrUpdateParameter(this Uri url, string paramName, string paramValue)
-        {
-            var uriBuilder = new UriBuilder(url);
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        //public static Uri AddOrUpdateParameter(this Uri url, string paramName, string paramValue)
+        //{
+        //    var uriBuilder = new UriBuilder(url);
+        //    NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
 
-            if (query.AllKeys.Contains(paramName))
-            {
-                query[paramName] = paramValue;
-            }
-            else
-            {
-                query.Add(paramName, paramValue);
-            }
-            uriBuilder.Query = query.ToString();
+        //    if (query.AllKeys.Contains(paramName))
+        //    {
+        //        query[paramName] = paramValue;
+        //    }
+        //    else
+        //    {
+        //        query.Add(paramName, paramValue);
+        //    }
+        //    uriBuilder.Query = query.ToString();
 
-            return uriBuilder.Uri;
-        }
+        //    return uriBuilder.Uri;
+        //    return url;
+        ////}
     }
 }
