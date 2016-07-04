@@ -5,8 +5,7 @@ namespace Memoirs.Android.Common.Login
     public class LoginResult
     {
         public List<string> Errors { get; set; }
-        public string Login { get; set; }
-        public string Token { get; set; }
+        public User User { get; set; }
 
     }
 }

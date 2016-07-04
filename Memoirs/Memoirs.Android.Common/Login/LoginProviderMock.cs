@@ -13,7 +13,11 @@ namespace Memoirs.Android.Common.Login
             }
             var newUser = new LoginResult()
             {
-                Login = login
+                User = new User()
+                {
+                    Login = "test",
+                    Token = "mock_token"
+                }
             };
             return newUser;
         }

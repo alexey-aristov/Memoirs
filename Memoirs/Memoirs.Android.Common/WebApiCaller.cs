@@ -48,7 +48,7 @@ namespace Memoirs.Android.Common
                     FormUrlEncodedContent param =
                    new FormUrlEncodedContent(parameters.Select(a => new KeyValuePair<string, string>(a.Key, a.Value)));
                     
-                    url += param.ToString();
+                    url= $"{url.Trim('/')}?{param.ReadAsStringAsync().Result}";
                 }
                 
                 if (!string.IsNullOrEmpty(authtoken))
@@ -60,7 +60,8 @@ namespace Memoirs.Android.Common
                 
 
                 statusCode = response.StatusCode;
-                TResponseValue jsonResponse = JsonConvert.DeserializeObject<TResponseValue>(response.Content.ReadAsStringAsync().Result);
+                var responceString = response.Content.ReadAsStringAsync().Result;
+                TResponseValue jsonResponse = JsonConvert.DeserializeObject<TResponseValue>(responceString);
                 return jsonResponse;
             }
         }

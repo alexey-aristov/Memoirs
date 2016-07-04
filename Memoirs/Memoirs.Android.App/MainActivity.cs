@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using Android.App;
 using Android.Content;
@@ -7,6 +8,7 @@ using Android.OS;
 using Memoirs.Android.Common;
 using Memoirs.Android.Common.Login;
 using Memoirs.Android.Common.Records;
+using Memoirs.Shared;
 using Ninject;
 
 namespace Memoirs.Android.App
@@ -15,6 +17,8 @@ namespace Memoirs.Android.App
     public class MainActivity : Activity
     {
         private ListView _recordsListView;
+
+        IRecordsProvider _recordsProvider;
         //private User _user;
         protected override void OnCreate(Bundle bundle)
         {
@@ -28,15 +32,14 @@ namespace Memoirs.Android.App
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
             var _loginProvider = Dependencies.Container.Get<ILoginProvider>();
-            var _recordsProvider = Dependencies.Container.Get<IRecordsProvider>();
+            _recordsProvider = Dependencies.Container.Get<IRecordsProvider>();
             _recordsListView = FindViewById<ListView>(Resource.Id.main_records_list);
             
-            HttpStatusCode st;
-           // var currentRecords = WebApiCaller.Get<List<Record>>("http://aristov.me/api/records", out st, null, App.CurrentUser.Token);
+            
+            var records = _recordsProvider.GetFiltered(DateTime.Now, RecordsGetType.Exact);
+            _recordsListView.Adapter=new ArrayAdapter(this, Resource.Layout.RecordsListView, records);
 
-           // _recordsListView.Adapter=new ArrayAdapter(this, Resource.Layout.RecordsListView, currentRecords);
-            // Get our button from the layout resource,
-            // and attach an event to it
+
             Button button = FindViewById<Button>(Resource.Id.MyButton);
             
         }

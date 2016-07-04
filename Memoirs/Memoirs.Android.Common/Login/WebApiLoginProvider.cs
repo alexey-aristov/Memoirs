@@ -8,7 +8,7 @@ using Uri = System.Uri;
 
 namespace Memoirs.Android.Common.Login
 {
-    public class WebApiLoginProvider:ILoginProvider
+    public class WebApiLoginProvider : ILoginProvider
     {
         private string _accessToken;
         public LoginResult Login(string login, string password)
@@ -26,7 +26,7 @@ namespace Memoirs.Android.Common.Login
                 //bool isOnline = (activeConnection != null) && activeConnection.IsConnected;
 
                 var connectionChecker = Dependencies.Container.Get<IConnectionChecker>();
-                var userManager  = Dependencies.Container.Get<IUserManager>();
+                var userManager = Dependencies.Container.Get<IUserManager>();
                 if (!connectionChecker.IsInternetAvailable())
                 {
                     return new LoginResult()
@@ -62,8 +62,11 @@ namespace Memoirs.Android.Common.Login
                         };
                         return new LoginResult()
                         {
-                            Token = token,
-                            Login = jsonResponse.UserName
+                            User = new User()
+                            {
+                                Token = token,
+                                Login = jsonResponse.UserName
+                            }
                         };
                     }
                     else
@@ -76,7 +79,7 @@ namespace Memoirs.Android.Common.Login
                             }
                         };
                     }
-                    
+
                 }
             }
             catch (Exception ex)

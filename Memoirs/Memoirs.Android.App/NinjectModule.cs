@@ -13,6 +13,7 @@ namespace Memoirs.Android.App
             Kernel.Bind<IRecordsProvider>().To<WebApiRecordsProvider>();
             Kernel.Bind<IUserManager>().To<UserManager>().InSingletonScope();
             Kernel.Bind<IConnectionChecker>().To<AndroidConnectionChecker>();
+            Kernel.Bind<IDeviceAccountManager>().To<AndroidAccountManager>();
         }
     }
 }

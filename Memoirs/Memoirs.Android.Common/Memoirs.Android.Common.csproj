@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Dependencies.cs" />
     <Compile Include="IConnectionChecker.cs" />
+    <Compile Include="IDeviceAccountManager.cs" />
     <Compile Include="Login\IUserManager.cs" />
     <Compile Include="Login\ExpiresInSerializer.cs" />
     <Compile Include="Login\ILoginProvider.cs" />
