@@ -211,7 +211,7 @@ $(document).ready(function () {
         window.location.href = window.location.origin + '/#table/' + (newDate.getMonth()+1) + '/'+newDate.getFullYear();
     }
     });
-    var RecordView = Backbone.View.extend({
+    var RecordsAsListView = Backbone.View.extend({
         isEditingOn: false,
         tagName: 'div',
         className: 'list-group-item row',
@@ -340,7 +340,7 @@ $(document).ready(function () {
                 this.tableView.addToTable(record);
 
             } else {
-                var view = new RecordView({
+                var view = new RecordsAsListView({
                     model: record
                 });
 
