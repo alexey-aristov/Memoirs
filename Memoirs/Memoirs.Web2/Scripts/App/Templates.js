@@ -72,5 +72,21 @@
 
     ModalView:
         '<div class="modal-view">' +
+        '</div>',
+
+    AddNewRecordView:
+        '<div class="row">' +
+            '<div>' +
+                '<h1>New record</h1>' +
+            '</div>' +
+            '<div>' +
+                '<input class="new_record_label" type="text" class="form-control" placeholder="Best event!">' +
+            '</div>' +
+            '<div>' +
+            '   <textarea class="new_record_text" class="form-control" placeholder="Event description"></textarea>' +
+            '</div>' +
+            '<div>' +
+                '<button class="new_record_save_btn">Save!</button>' +
+            '</div>' +
         '</div>'
 }

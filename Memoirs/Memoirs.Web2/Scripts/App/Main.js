@@ -7,8 +7,8 @@
     return Math.ceil(used / 7);
 }
 DateLiterals = {
-        Month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        MonthShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    Month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    MonthShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 };
 $(document).ready(function () {
     var CurrentPageDateMonthYear = new Date();
@@ -157,7 +157,7 @@ $(document).ready(function () {
             $(this.el).html(this.template({
                 trs: this.tableViews.trs,
                 month: DateLiterals.Month[CurrentPageDateMonthYear.getMonth()],
-                year:CurrentPageDateMonthYear.getFullYear()
+                year: CurrentPageDateMonthYear.getFullYear()
             }));
             var self = this;
             _.each(this.tableViews.trs, function (tds) {
@@ -200,16 +200,16 @@ $(document).ready(function () {
         click_prevMonth: function () {
             var newDate = CurrentPageDateMonthYear;
             newDate.setMonth(-1 + CurrentPageDateMonthYear.getMonth());
-            window.location.href = window.location.origin + '/#table/' + (newDate.getMonth()+1) + '/'+newDate.getFullYear();
+            window.location.href = window.location.origin + '/#table/' + (newDate.getMonth() + 1) + '/' + newDate.getFullYear();
         },
-    click_nowMonth: function () {
-        window.location.href = window.location.origin + '/#table';
-    },
-    click_nextMonth: function () {
-        var newDate = CurrentPageDateMonthYear;
-        newDate.setMonth(1 + CurrentPageDateMonthYear.getMonth());
-        window.location.href = window.location.origin + '/#table/' + (newDate.getMonth()+1) + '/'+newDate.getFullYear();
-    }
+        click_nowMonth: function () {
+            window.location.href = window.location.origin + '/#table';
+        },
+        click_nextMonth: function () {
+            var newDate = CurrentPageDateMonthYear;
+            newDate.setMonth(1 + CurrentPageDateMonthYear.getMonth());
+            window.location.href = window.location.origin + '/#table/' + (newDate.getMonth() + 1) + '/' + newDate.getFullYear();
+        }
     });
     var RecordsAsListView = Backbone.View.extend({
         isEditingOn: false,
@@ -288,74 +288,45 @@ $(document).ready(function () {
         dispose: function () { }
     });
 
-    var App = Backbone.View.extend({
-        recordsList: new RecordsList,
-        recordsAsTable: false,
-        el: $('#app'),
+    var CreateNewRecordView = Backbone.View.extend({
+        isActive: false,
+        template: _.template(Templates.AddNewRecordView),
         events: {
-            'keypress #new_record_label': 'createOnEnter',
-            'keypress #new_record_text': 'createOnEnter',
-            'click #new_record_save_btn': 'saveRecord'
+            'keypress .new_record_label': 'createOnEnter',
+            'keypress .new_record_text': 'createOnEnter',
+            'click .new_record_save_btn': 'saveRecord'
         },
-        tableView: new RecordsTableView(),
         initialize: function (options) {
-            this.recordsAsTable = options.recordsAsTable;
-            this.newRecordLabel = this.$('#new_record_label');
-            this.newRecordText = this.$('#new_record_text');
-            this.listenTo(this.recordsList, 'add', this.addOne);
-            this.listenTo(this.recordsList, 'reset', this.addAll);
-            this.listenTo(this.recordsList, 'all', this.render);
-            this.listenTo(this.recordsList, 'sync', this.recodsListSync);
-
-            this.recordsList.fetch({
-                data: $.param({
-                    monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear(),
-                    gettype: 'From'
-                })
-            });
-            if (this.recordsAsTable) {
-                this.$el.append(this.tableView.render().el);
-            }
-        },
-        render: function () {
-
-        },
-        addOne: function (record) {
-            if (record.Id == 0) {
-                return;//it have to be handle in sync
-            }
-            this.addRecordToView(record);
-
-        },
-        addRecordToView: function (record) {
-            if (this.recordsAsTable) {
-                if (record.attributes.DateCreatedDate == undefined) {
-                    if (record.attributes.DateCreatedString == undefined || record.attributes.DateCreatedString == '') {
-                        record.attributes.DateCreatedDate = CurrentPageDateMonthYear;
-                        record.attributes.DateCreatedString = CurrentPageDateMonthYear.toDateString();
-                    } else {
-                        record.attributes.DateCreatedDate = new Date(record.attributes.DateCreated.split('T')[0]);
-                    }
-                }
-                this.tableView.addToTable(record);
+            if (options.isModal != undefined) {
+                this.isModal = options.isModal;
+                this.modal = new Modal({
+                    View: this
+                });
+                this.parentEl = this.modal.$el;
+                this.render();
+                
 
             } else {
-                var view = new RecordsAsListView({
-                    model: record
-                });
-
-                var prevRecord = this.$('#records-prev-item-' + record.attributes.Id);
-                if (prevRecord.length == 0) {
-                    this.$('#prev_records').prepend(view.render().el);
-                } else {
-                    prevRecord.parent().replaceWith(view.render().el);
-                }
+                this.parentEl = options.parent;
+            }
+            this.recordsList = options.recordsList;
+            this.newRecordLabel = this.$('.new_record_label');
+            this.newRecordText = this.$('.new_record_text');
+        },
+        render: function () {
+            this.$el.html(this.template());
+        },
+        show: function () {
+            if (this.isModal) {
+                this.modal.show();
             }
         },
-        addAll: function () {
-            this.recordsList.each(this.addOne, this);
+        hide: function() {
+            if (this.isModal) {
+                this.modal.hide();
+            }
         },
-        saveRecord: function() {
+        saveRecord: function () {
             if (!this.newRecordLabel.val()) return;
             var newRecord = {
                 Label: this.newRecordLabel.val(),
@@ -368,12 +339,14 @@ $(document).ready(function () {
             record = this.recordsList.create(
                 newRecord,
                 {
-                    wait: true, error: function (model, responce) {
+                    wait: true,
+                    error: function (model, responce) {
                         //temp solution
                         alert("error!: " + responce.responseText);
                     },
                     success: function (a1, a2) {
                         a1.set({ Id: a2 });
+                        self.hide();
                     }
                 }
             );
@@ -383,6 +356,86 @@ $(document).ready(function () {
         createOnEnter: function (e) {
             if (e.keyCode != 13) return;
             this.saveRecord();
+        }
+    });
+
+    var App = Backbone.View.extend({
+        recordsList: new RecordsList,
+        recordsAsTable: false,
+        el: $('#app'),
+        tableView: new RecordsTableView(),
+        initialize: function (options) {
+            this.recordsAsTable = options.recordsAsTable;
+            this.listenTo(this.recordsList, 'add', this.addOne);
+            this.listenTo(this.recordsList, 'reset', this.addAll);
+            this.listenTo(this.recordsList, 'all', this.render);
+            this.listenTo(this.recordsList, 'sync', this.recodsListSync);
+            var self = this;
+            this.recordsList.fetch({
+                data: $.param({
+                    monthyear: (CurrentPageDateMonthYear.getMonth() + 1) + '.' + CurrentPageDateMonthYear.getFullYear(),
+                    gettype: 'From'
+                }),
+                wait: true,
+                success: function (collection, response, options) {
+                    var isAny = _.some(collection.models, function (record) {
+                        return record.attributes.DateCreatedDate.getDate() == new Date().getDate()
+                            && record.attributes.DateCreatedDate.getMonth() == new Date().getMonth()
+                            && record.attributes.DateCreatedDate.getFullYear() == new Date().getFullYear();
+                    });
+                    if (!isAny) {
+                        self.createNewRecordsView.show();
+                    }
+                }
+            });
+            if (this.recordsAsTable) {
+                this.$el.append(this.tableView.render().el);
+            }
+
+            this.createNewRecordsView = new CreateNewRecordView(
+                {
+                    isModal: true,
+                    recordsList:this.recordsList
+                });
+            
+            $('.records_add_new_show').on('click', function () {
+                self.createNewRecordsView.show();
+            });
+        },
+        render: function () {
+
+        },
+        addOne: function (record) {
+            if (record.Id == 0) {
+                return;//it have to be handle in sync
+            }
+            this.addRecordToView(record);
+        },
+        addRecordToView: function (record) {
+            if (record.attributes.DateCreatedDate == undefined) {
+                if (record.attributes.DateCreatedString == undefined || record.attributes.DateCreatedString == '') {
+                    record.attributes.DateCreatedDate = CurrentPageDateMonthYear;
+                    record.attributes.DateCreatedString = CurrentPageDateMonthYear.toDateString();
+                } else {
+                    record.attributes.DateCreatedDate = new Date(record.attributes.DateCreated.split('T')[0]);
+                }
+            }
+            if (this.recordsAsTable) {
+                this.tableView.addToTable(record);
+            } else {
+                var view = new RecordsAsListView({
+                    model: record
+                });
+                var prevRecord = this.$('#records-prev-item-' + record.attributes.Id);
+                if (prevRecord.length == 0) {
+                    this.$('#prev_records').prepend(view.render().el);
+                } else {
+                    prevRecord.parent().replaceWith(view.render().el);
+                }
+            }
+        },
+        addAll: function () {
+            this.recordsList.each(this.addOne, this);
         },
         reinit: function (options) {
             this.recordsAsTable = options.recordsAsTable;
@@ -448,4 +501,5 @@ $(document).ready(function () {
     var router = new Router();
     Backbone.history.start();
 
+    
 });
