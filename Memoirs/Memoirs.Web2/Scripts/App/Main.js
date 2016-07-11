@@ -170,7 +170,7 @@ $(document).ready(function () {
         addToTable: function (record) {
             var recordDate = new Date(record.attributes.DateCreatedDate);
             var firstDayOffset = new Date(recordDate.getFullYear(), recordDate.getMonth(), 1).getDay();
-            var i = (recordDate.getDate() / 7 | 0);
+            var i = ((recordDate.getDate()+firstDayOffset) / 7 | 0);
             var j = (recordDate.getDay() - 1);
             if (j == -1)
                 j = 6;
