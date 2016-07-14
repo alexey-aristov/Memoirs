@@ -16,5 +16,6 @@ namespace Memoirs.Common.EntityFramework
 		}
 
 	    public virtual ICollection<Record> Records { get; set; }
+	    public virtual ICollection<Entities.EndOfPeriod> EndOfPeriods { get; set; }
 	}
 }

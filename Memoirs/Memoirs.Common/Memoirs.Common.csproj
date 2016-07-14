@@ -65,9 +65,16 @@
   <ItemGroup>
     <Compile Include="ApiException.cs" />
     <Compile Include="AppSettingProvider.cs" />
+    <Compile Include="EndOfPeriod\EndOfMonthPeriod.cs" />
+    <Compile Include="EndOfPeriod\EndOfPeriodBase.cs" />
+    <Compile Include="EndOfPeriod\EndOfPeriodEnum.cs" />
+    <Compile Include="EndOfPeriod\EndOfPeriodProvider.cs" />
+    <Compile Include="EndOfPeriod\EndOfWeekPeriod.cs" />
+    <Compile Include="EndOfPeriod\EndOfYearPeriod.cs" />
     <Compile Include="EntityFramework\Entities\Abstract\AppSetting.cs" />
     <Compile Include="EntityFramework\Entities\Abstract\IEntity.cs" />
     <Compile Include="EntityFramework\Entities\Abstract\RecordBase.cs" />
+    <Compile Include="EntityFramework\Entities\EndOfPeriod.cs" />
     <Compile Include="EntityFramework\Entities\Enums\EmptyEnum.cs" />
     <Compile Include="EntityFramework\Entities\Record.cs" />
     <Compile Include="EntityFramework\AppDataContext.cs" />
@@ -79,6 +86,7 @@
     <Compile Include="Identity\ApplicationSignInManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Identity\Services.cs" />
+    <Compile Include="EndOfPeriod\IEndOfPeriodProvider.cs" />
     <Compile Include="IGenericRepository.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="IUnitOfWork.cs" />
@@ -90,6 +98,10 @@
     <Compile Include="Migrations\201606191855530_addAppSettingsTable.cs" />
     <Compile Include="Migrations\201606191855530_addAppSettingsTable.Designer.cs">
       <DependentUpon>201606191855530_addAppSettingsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607111508343_AddEndOfPeriodTable.cs" />
+    <Compile Include="Migrations\201607111508343_AddEndOfPeriodTable.Designer.cs">
+      <DependentUpon>201607111508343_AddEndOfPeriodTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606191855530_addAppSettingsTable.resx">
       <DependentUpon>201606191855530_addAppSettingsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607111508343_AddEndOfPeriodTable.resx">
+      <DependentUpon>201607111508343_AddEndOfPeriodTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

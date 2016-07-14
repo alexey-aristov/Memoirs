@@ -9,6 +9,7 @@ namespace Memoirs.Common.EntityFramework
         private readonly DbContext _dataContext;// = new DataContext ();
         private IGenericRepository<RecordBase> _postsRepository;
         private IGenericRepository<AppSetting> _appSettingsRepository;
+        private IGenericRepository<Entities.EndOfPeriod> _endOfPeriodRepository;
 
         private bool _disposed = false;
 
@@ -21,6 +22,7 @@ namespace Memoirs.Common.EntityFramework
         public IGenericRepository<RecordBase> RecordsRepository => _postsRepository ?? (_postsRepository = new GenericRepository<RecordBase>(_dataContext));
 
         public IGenericRepository<AppSetting> AppSettingsRepository => _appSettingsRepository ?? (_appSettingsRepository = new GenericRepository<AppSetting>(_dataContext));
+        public IGenericRepository<Entities.EndOfPeriod> EndOfPeriodRepository => _endOfPeriodRepository ?? (_endOfPeriodRepository = new GenericRepository<Entities.EndOfPeriod>(_dataContext));
 
 
         public void Save()

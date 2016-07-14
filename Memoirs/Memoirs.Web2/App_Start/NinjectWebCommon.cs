@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Web;
 using System.Web.Http.Filters;
 using Memoirs.Common;
+using Memoirs.Common.EndOfPeriod;
 using Memoirs.Common.EntityFramework;
 using Memoirs.Common.Identity;
 using Memoirs.Logging;
@@ -79,6 +80,7 @@ namespace Memoirs.Web2
             kernel.Bind<DbContext>().To<AppDataContext>().InRequestScope();
             kernel.Bind<IUserStore<ApplicationUser>>().To<UserStore<ApplicationUser>>().InRequestScope();
             kernel.Bind<IAppSettingsProvider>().To<AppSettingProvider>().InRequestScope();
+            kernel.Bind<IEndOfPeriodProvider>().To<EndOfPeriodProvider>().InRequestScope();
 
             kernel.Bind<ApplicationSignInManager>().ToSelf().InRequestScope();
             kernel.Bind<ApplicationUserManager>().ToSelf().InRequestScope();

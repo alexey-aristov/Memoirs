@@ -12,11 +12,17 @@ namespace Memoirs.Common.EntityFramework
         public AppDataContext()
             : base("DataConnection")
         {
-            
+
         }
-        
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Entities.EndOfPeriod>().HasRequired(a => a.Record).WithOptional(a => a.EndOfPeriod).WillCascadeOnDelete(false);
+        }
+
         public DbSet<RecordBase> Records { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }
+        public DbSet<Entities.EndOfPeriod> EndOfPeriods { get; set; }
         public IQueryable<RecordBase> RecordsQuery
         {
             get { return Records; }
@@ -27,6 +33,12 @@ namespace Memoirs.Common.EntityFramework
         {
             get { return AppSettings; }
             set { AppSettings = (DbSet<AppSetting>)value; } //not sure too
+        }
+
+        public IQueryable<Entities.EndOfPeriod> EndOfPeriodQuery
+        {
+            get { return EndOfPeriods; }
+            set { EndOfPeriods = (DbSet<Entities.EndOfPeriod>)value; }//not sure too
         }
     }
 }

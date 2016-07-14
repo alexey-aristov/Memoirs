@@ -14,5 +14,7 @@ namespace Memoirs.Common.EntityFramework.Entities {
         [ForeignKey("User")]
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
+        public int? EndOfPeriodId { get; set; }
+        public EndOfPeriod EndOfPeriod { get; set; }
     }
 }

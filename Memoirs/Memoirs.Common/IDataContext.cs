@@ -11,5 +11,6 @@ namespace Memoirs.Common
     {
         IQueryable<RecordBase> RecordsQuery { get; set; }
         IQueryable<AppSetting> AppSettingsQuery { get; set; }
+        IQueryable<EntityFramework.Entities.EndOfPeriod> EndOfPeriodQuery { get; set; }
     }
 }

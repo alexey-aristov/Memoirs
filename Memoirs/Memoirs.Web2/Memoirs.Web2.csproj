@@ -215,6 +215,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\AccountController.cs" />
+    <Compile Include="Controllers\Api\EndOfPeriodController.cs" />
     <Compile Include="Controllers\Api\PicturesController.cs" />
     <Compile Include="Controllers\Api\RecordsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Models\Account\ExternalLoginModel.cs" />
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Api\BearerLoginModel.cs" />
+    <Compile Include="Models\Api\EndOfPeriodFilledType.cs" />
     <Compile Include="Models\Api\RegisterModel.cs" />
     <Compile Include="Models\Api\RegisterResponceModel.cs" />
     <Compile Include="Models\RecordModel.cs" />
